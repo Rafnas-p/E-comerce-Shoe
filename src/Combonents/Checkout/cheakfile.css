@@ -1,0 +1,74 @@
+/* cheakfile.css */
+
+.container1 {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.card1, .card2 {
+  flex: 1;
+  background-color: #f9f9f9;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+  margin: 10px 0;
+}
+
+.card1-content {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.input-field {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+.half-width {
+  width: calc(50% - 10px);
+}
+
+.billing-details, .address-subsection {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.address-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+textarea.input-field {
+  resize: vertical;
+}
+
+@media (max-width: 768px) {
+  .container1 {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .half-width {
+    width: 100%;
+  }
+
+  .billing-details, .address-subsection {
+    flex-direction: column;
+  }
+}
+
+  

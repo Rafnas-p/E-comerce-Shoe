@@ -1,0 +1,138 @@
+.countHandler input {
+    width: 40px;
+    text-align: center;
+    font-weight: bolder;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 5px;
+    margin: 5px;
+  }
+  
+  .checkout button {
+    width: 150px;
+    height: 50px;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    margin: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .checkout button:hover {
+    background-color: #444;
+  }
+  
+  .cart {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  .cartItem {
+    width: 100%;
+    max-width: 700px;
+    height: auto;
+    display: flex;
+    align-items: center;
+    box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.2);
+    border-radius: 25px;
+    margin: 30px 0;
+    padding: 20px;
+    background-color: #fff;
+    transition: box-shadow 0.3s ease;
+  }
+  
+  .cartItem:hover {
+    box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.3);
+  }
+  
+  .cartItem img {
+    width: 200px;
+    border-radius: 20px;
+    margin-right: 20px;
+  }
+  
+  .cartItem .description {
+    width: 100%;
+    font-size: 20px;
+    line-height: 1.5;
+  }
+  
+  .cartItem .description p {
+    margin: 5px 0;
+  }
+  
+  .cartItem .description strong {
+    font-weight: bold;
+    color: #333;
+  }
+  
+  @media (max-width: 768px) {
+    .cartItem {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .cartItem img {
+      width: 100%;
+      max-width: 200px;
+      margin-bottom: 20px;
+    }
+  
+    .cartItem .description {
+      font-size: 18px;
+    }
+  }
+  .countHandler {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .btn-cart {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  .btn-cart:hover {
+    background-color: #ff1a1a;
+  }
+  
+  .btn-cart:active {
+    background-color: #e60000;
+  }
+  
+  .btn-cart:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+  }
+  
+  
+  
+  button.remove {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  button.remove:hover {
+    background-color: #ff1a1a;
+  }
+  
+  button.remove:active {
+    background-color: #e60000;
+  }
+  

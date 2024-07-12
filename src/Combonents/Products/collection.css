@@ -1,0 +1,55 @@
+
+/* collection.css */
+
+.filter-dropdown {
+    position: relative;
+    margin-bottom: 20px;
+  }
+  
+  .filter-dropdown .dropdown-menu {
+    top: -10px; /* Adjust this value to raise or lower the dropdown */
+  }
+  
+  /* Optional: Additional styling for the dropdown toggle button */
+  .filter-dropdown .dropdown-toggle {
+    background-color: #28a745; /* Green color */
+    border-color: #28a745;
+    color: white;
+  }
+  
+  .filter-dropdown .dropdown-toggle:hover,
+  .filter-dropdown .dropdown-toggle:focus {
+    background-color: #218838;
+    border-color: #1e7e34;
+  }
+  
+  /* Product item hover effects */
+  .product-item {
+    transition: transform 0.2s;
+  }
+  
+  .product-item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .card-title {
+    font-size: 1.5rem;
+    color: #343a40;
+  }
+  
+  .card-text {
+    font-size: 1rem;
+    color: #6c757d;
+  }
+  
+  /* Custom button styles */
+  .addTocartBttn {
+    background-color: #007bff;
+    border: none;
+  }
+  
+  .addTocartBttn:hover {
+    background-color: #0056b3;
+  }
+  

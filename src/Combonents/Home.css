@@ -1,0 +1,203 @@
+
+ .nav0 {
+    display: flex;
+    justify-content: center;
+    background-color: #e5e8e8;
+
+  }
+.nav0-1{
+text-decoration: none;
+color: rgb(186, 187, 187);
+font-size: 10px;
+
+}
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 17px;
+  background-color: rgb(191, 7, 7);
+  height: 80px;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+}
+
+.navbar-left, .navbar-right {
+  list-style-type: none;
+  display: flex;
+  padding: 0;
+}
+
+.navbar-left li {
+  margin-right: 20px;
+}
+
+.navbar-right li {
+  margin-left: 20px;
+}
+
+
+.logimg {
+
+  max-width: 50px; 
+  padding: 9px;
+  margin-right: 40px;
+ 
+}
+.nav-cart-count{
+  width: 12px;
+  height: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 11px;
+  margin-left: -62px;
+  border-radius: 14px;
+  background-color: rgba(224, 86, 31, 0.842);
+  color: aliceblue;
+  font-size: 50%;
+}
+
+li a{
+  text-decoration: none;
+  color: rgb(228, 225, 225);
+  margin-left: 10px;
+  font-weight: bolde;
+  transition: linear;
+
+}
+
+.link-home-head{
+  font-weight: bold;
+}
+.homeImg {
+  width: 100%;
+  height: 100vh; 
+  background-image: url("https://websitedemos.net/recycled-shoe-store-04/wp-content/uploads/sites/983/2021/11/recycled-shoe-store-hero-image-bg.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  position: relative; /* Ensures any positioned children are relative to this element */
+  z-index: -1; /* Keeps it behind other content */
+  display: flex; /* Allows for positioning of children with flexbox */
+  align-items: center; /* Vertically centers children */
+  justify-content: center; /* Horizontally centers children */
+}
+
+.bgimg-text {
+  color: aliceblue;
+  margin: 0; /* Remove margins to center text */
+  text-align: center; /* Centers text horizontally */
+  position: absolute; /* Position the text absolutely */
+  top: 50%; /* Vertically centers the text */
+  left: 50%; /* Horizontally centers the text */
+  transform: translate(-50%, -50%); /* Adjusts the centering */
+}
+.navbar-toggle {
+  display: none;
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-size: 24px;
+}
+
+@media (max-width:  576px) {
+  .navbar-left, .navbar-right {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+  }
+  .navbar-left.active, .navbar-right.active {
+    display: flex;
+  }
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .navbar-toggle {
+    display: block;
+    cursor: pointer;
+  }
+}
+
+/* Remove border and background from the button */
+.logout-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+  background-color: #faf1f1;
+}
+
+/* Style the logout image */
+.logout-img {
+  max-width: 50px;
+  padding: 10px;
+  display: block;
+}
+.home-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100vh; /* Full viewport height */
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
+.home-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 70vh; /* Adjusted for better balance */
+  margin: 50px 0;
+  width: 100%; /* Make the container take full width */
+  padding: 0 20px; /* Add some padding for better alignment */
+}
+
+.homeImg2 {
+  flex: 1; /* Allow the image to take up available space */
+  height: 100%;
+  background-image: url("https://websitedemos.net/recycled-shoe-store-04/wp-content/uploads/sites/983/2021/11/recycled-shoe-store-home-about-image.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+
+}
+
+.about-us-section {
+  flex: 1; /* Allow the text section to take up available space */
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.9); /* Slight white background for readability */
+  border-radius: 10px;
+  
+  margin-left: 20px; /* Add margin to separate image and text */
+}
+
+.about-us-section h2 {
+  font-size: 28px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.about-us-section p {
+  font-size: 16px;
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 15px; /* Slightly reduced margin for compactness */
+}
+
+.about-us-section .read-more-link {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #e33636;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.about-us-section .read-more-link:hover {
+  background-color: #c12c2c;
+}

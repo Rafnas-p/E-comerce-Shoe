@@ -1,0 +1,60 @@
+/* General styles for search component */
+.search {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin-top: -5px;
+  position: relative;
+}
+
+.searchInput input {
+  width: calc(100% - 40%); /* Adjusted width with padding and icon space */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.searchInput input {
+  width: 550px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.searchIcon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.dataResult {
+  width: 100%; /* Take full width of parent */
+  max-height: 300px;
+  overflow-y: auto;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  position: absolute;
+  top: calc(100% + 20px); /* Increased space to 20px */
+  z-index: 1000;
+}
+
+.dataItem {
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+  cursor: pointer;
+}
+
+.dataItem:hover {
+  background-color: #f1f1f1;
+}
+
+/* Hide search bar for screen widths less than 768px */
+@media (max-width: 768px) {
+  .search {
+    display: none;
+  }
+}

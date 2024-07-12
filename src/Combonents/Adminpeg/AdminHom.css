@@ -1,0 +1,41 @@
+.admin-dashboard {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .dashboard-content {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+  }
+  
+  /* UsersSection.css */
+.section {
+  background-color: #f8f9fa;
+  padding: 20px;
+  width: 250px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  margin: 20px 0;
+  transition: background-color 0.3s ease;
+}
+
+.section:hover {
+  background-color: #e2e6ea;
+}
+
+.section a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.section h2 {
+  color: #343a40;
+  margin-bottom: 10px;
+}
+
+.section p {
+  font-size: 1.2em;
+  color: #495057;
+}
