@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
-import { ProductData } from '../Products/Prodects';
+import { ProductData } from '../Combonents/Products/Prodects';
 import { useNavigate } from 'react-router';
 export const ShopContext = createContext(null);
 

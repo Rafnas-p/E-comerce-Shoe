@@ -3,7 +3,7 @@ import { useLocation,useNavigate } from "react-router";
 import './cheakfile.css';
 import { Button } from "react-bootstrap";
 import { useContext } from "react";
-import { ShopContext } from "../Context/Shop-contex";
+import { ShopContext } from "../../Context/Shop-contex";
 
 function Cheakfil() {
  const{ clearCart} = useContext(ShopContext)
