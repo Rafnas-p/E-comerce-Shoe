@@ -17,8 +17,8 @@ import ProductFilter from './Adminpage/Prodectfilter';
 import RegisterdUser from './Adminpage/User/RegisterdUser';
 import UserDetails from './Adminpage/User/Userdeatails';
 import AdminHom from './Adminpage/AdminHom';
-import ProductDetails from './Combonents/Products/productDeatails'; // Corrected import
-
+import ProductDetails from './Combonents/Products/productDeatails';
+import Wishlist from './Combonents/Products/Wishlist';
 export default function App() {
   const location = useLocation();
   const isAdminpath = location.pathname.startsWith('/admin');
@@ -40,7 +40,9 @@ export default function App() {
           <Route path='admin/registerduser' element={<RegisterdUser />} />
           <Route path='admin/registerduser/:id' element={<UserDetails />} />
           <Route path='/admin/adminhome' element={<AdminHom />} />
-          <Route path='/productDetails/:id' element={<ProductDetails />} /> {/* Corrected path */}
+          <Route path='/productDetails/:id' element={<ProductDetails />} /> 
+          <Route path='/Wishlist' element={<Wishlist />} /> 
+
         </Routes>
 
         {!isAdminpath && <Footer />}

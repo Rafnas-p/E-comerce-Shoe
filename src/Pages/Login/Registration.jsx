@@ -6,30 +6,50 @@ function Registration(props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const newUser = {
-      id: Date.now().toString(), 
-      name,
-      email,
-      password,
-    };
-
-    let users = JSON.parse(localStorage.getItem('users')) || [];
-    const userExists = users.find(user => user.email === email);
-
-    if (userExists) {
-      alert('User already exists with this email');
-      return;
+    try {
+      const response = await fetch('http://localhost:3002/users/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: name, email, password }),
+      });
+      const data = await response.json();
+      
+      if (response.ok) {
+        alert('Registration successful!');
+        navigate(props.onFormSwitch('login')); // Redirect to login page
+      } else {
+        setError(data.message);
+      }
+    } catch (err) {
+      setError('Registration failed. Please try again.');
     }
-
-    users.push(newUser);
-    localStorage.setItem('users', JSON.stringify(users));
-    navigate(props.onFormSwitch('login'));
   };
+
+  //   const newUser = {
+  //     id: Date.now().toString(), 
+  //     name,
+  //     email,
+  //     password,
+  //   };
+
+  //   let users = JSON.parse(localStorage.getItem('users')) || [];
+  //   const userExists = users.find(user => user.email === email);
+
+  //   if (userExists) {
+  //     alert('User already exists with this email');
+  //     return;
+  //   }
+
+  //   users.push(newUser);
+  //   localStorage.setItem('users', JSON.stringify(users));
+  //   navigate(props.onFormSwitch('login'));
+  // };
 
   return (
     <div className='flex items-center justify-center min-h-screen bg-gray-100 p-4'>

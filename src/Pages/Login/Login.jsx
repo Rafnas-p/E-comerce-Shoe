@@ -1,62 +1,63 @@
 
-
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Cookie from 'js-cookie'; // For handling cookies
 import { ShopContext } from '../../Context/Shop-contex';
-
 function Login(props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   const [loginSuccess, setLoginSuccess] = useState(false);
-  const { setCartItems } = useContext(ShopContext);
   const navigate = useNavigate();
+const {fetchCartItems}=useContext(ShopContext)
 
-  useEffect(() => {
-    const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
-    if (loggedInUser) {
-      setEmail(loggedInUser.email);
-      setPassword(loggedInUser.password);
-      setLoginSuccess(true);
-      const storedCart = JSON.parse(localStorage.getItem(`cartItems_${loggedInUser.email}`));
-      if (storedCart) {
-        setCartItems(storedCart);
-      }
-  
-      navigate('/');
-    }
-  }, [navigate, setCartItems]);
+const userId=Cookie.get('user')
+console.log("userId",userId);
+useEffect(() => {
+  if (userId) {
+    fetchCartItems(userId); // Fetch cart items from the backend
+  }
+}, [userId]);
 
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const user = { email, password };
-    let users = JSON.parse(localStorage.getItem('users')) || [];
 
-    const userExists = users.find(u => u.email === email && u.password === password);
+    // Determine whether to hit admin or user login API based on email
+    const isAdmin = email === 'admin@gmail.com';
+    const url = isAdmin ? 'http://localhost:3002/admin/adminlogin' : 'http://localhost:3002/users/login';
 
-    if (!userExists) {
-      alert('Invalid email or password');
-      return;
-    }
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
 
-    localStorage.setItem('loggedInUser', JSON.stringify(user));
-    localStorage.setItem('isLoggedIn', 'true');
+      const data = await response.json();
 
-    const storedCart = JSON.parse(localStorage.getItem(`cartItems_${email}`));
-    if (storedCart) {
-      setCartItems(storedCart);
-    }
+      console.log(data);
+      
+      console.log(data.user.id);
 
-    setLoginSuccess(true);
+      if (response.ok) {
+        // Store the token in cookies
+        Cookie.set('token', data.token);
+        Cookie.set('isLogged', true);
+        Cookie.set('user',data.user.id)        
+        
 
-    // Check if the email is the admin's email
-    if (email === 'admin@example.com' && password === "26242624") {
-      setTimeout(() => {
-        navigate('/admin/adminhome');
-      }, 2000);
-    } else {
-      setTimeout(() => {
-        navigate('/');
-      }, 2000);
+        // Handle success: Redirect to the appropriate page
+        setLoginSuccess(true);
+        setTimeout(() => {
+          navigate(isAdmin ? '/admin/adminhome' : '/');
+        }, 2000);
+      } else {
+        setError(data.message); // Show error message if login fails
+      }
+ 
+    } catch (error) {
+      setError('An error occurred while logging in. Please try again.');
     }
   };
 
@@ -92,6 +93,7 @@ function Login(props) {
                 className='w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500'
               />
             </div>
+            {error && <p className='text-red-500'>{error}</p>}
             <button
               type='submit'
               className='w-full py-2 px-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500'
@@ -119,8 +121,3 @@ function Login(props) {
 }
 
 export default Login;
-
-
-
-
-

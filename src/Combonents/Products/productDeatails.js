@@ -1,41 +1,53 @@
-// ProductDetails.jsx
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { ProductData } from './Prodects'; // Import the product data
-import { Card, Container } from 'react-bootstrap'; // Import Bootstrap components
+import { Card, Container } from 'react-bootstrap';
 
 function ProductDetails() {
-  const { id } = useParams(); // Get the product ID from the URL parameters
-  const [product, setProduct] = useState(null);
+  const { id } = useParams(); 
+  const [product, setProduct] = useState(null); 
+  const [loading, setLoading] = useState(true); 
+  const [error, setError] = useState(null); 
 
   useEffect(() => {
-    // Find the product details based on the ID from the imported data
-    const fetchProduct = () => {
-      const productFound = ProductData.find((product) => product.id === parseInt(id));
-      if (productFound) {
-        setProduct(productFound);
-      } else {
-        console.error('Product not found');
+    const fetchProduct = async () => {
+      try {
+        const response = await fetch(`http://localhost:3002/users/product/${id}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch product.');
+        }
+        const data = await response.json(); 
+        setProduct(data); 
+        setLoading(false); 
+      } catch (err) {
+        console.error("Error fetching product:", err);
+        setError("Failed to fetch product.");
+        setLoading(false);
       }
     };
 
-    fetchProduct();
+    fetchProduct(); 
   }, [id]);
 
-  if (!product) {
-    return <div>Loading...</div>;
+  if (loading) {
+    return <div>Loading...</div>; 
+  }
+
+  if (error) {
+    return <div>{error}</div>; 
   }
 
   return (
-    <Container className="my-5 d-flex justify-content-center"> {/* Center the card */}
-      <Card style={{ maxWidth: '20rem' }} className="shadow p-3 mb-5 bg-body-tertiary rounded"> {/* Set max-width for a smaller card */}
-        <Card.Img variant="top" src={product.image} alt={product.name} /> {/* Display the product image */}
-        <Card.Body>
-          <Card.Title>{product.name}</Card.Title>
-          <Card.Text>{product.description}</Card.Text>
-          <Card.Text>Price: ₹{product.price}</Card.Text>
-        </Card.Body>
-      </Card>
+    <Container className="my-5 d-flex justify-content-center">
+      {product && (
+        <Card style={{ maxWidth: '20rem' }} className="shadow p-3 mb-5 bg-body-tertiary rounded">
+          <Card.Img variant="top" src={product.image} alt={product.name} />
+          <Card.Body>
+            <Card.Title>{product.name}</Card.Title>
+            <Card.Text>{product.description}</Card.Text>
+            <Card.Text>Price: ₹{product.price}</Card.Text>
+          </Card.Body>
+        </Card>
+      )}
     </Container>
   );
 }
