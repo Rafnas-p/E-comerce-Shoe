@@ -7,7 +7,7 @@ import Cookie from 'js-cookie';
 import { FiHeart } from 'react-icons/fi';
 
 function Women() {
-  const { addToCart, cartItems, products, addwishlist, wishlist,  } = useContext(ShopContext);
+  const { addToCart, cartItems, products, addwishlist, wishlist } = useContext(ShopContext);
   const [item, setItem] = useState([]);
   const isLogged = Cookie.get('token');
   const navigate = useNavigate();
@@ -17,23 +17,16 @@ function Women() {
     setItem(products.filter(item => item.type === "women"));
   }, [products]);
 
-  // // Fetch wishlist only when the user is logged in
-  // useEffect(() => {
-  //   if (isLogged) {
-  //     getwihlist();
-  //   }
-  // }, [isLogged, getwihlist]);
-
   const handleViewDetails = (id) => {
     navigate(`/productDetails/${id}`);
   };
 
   const handleWishlistToggle = (productId) => {
-    if (!isLogged) {
-      alert('Please Login');
-      navigate('/login');
+    if (isLogged) {
+      addwishlist(productId);
     } else {
-      addwishlist(productId); // Toggle wishlist only if logged in
+      alert('Please log in to add to wishlist.');
+      navigate('/login');
     }
   };
 
@@ -47,12 +40,18 @@ function Women() {
       </h1>
 
       <Row>
-      {item.map((iteme) => {
+        {item.map((iteme) => {
           const cartItemAmount = cartItems[iteme._id];
-          const itemInWishlist = wishlist && wishlist.some(wishItem => 
-            wishItem && wishItem?._id && wishItem?._id.equals(iteme._id)
-          );
+          let itemInWishlist = wishlist && wishlist.some(wishItem => 
+            wishItem && wishItem._id && wishItem._id.toString() === iteme._id.toString()
 
+          );
+          console.log( 'item in wishlist',itemInWishlist);
+          console.log(iteme._id);
+          console.log(wishlist)
+          
+          
+                    
           return (
             <Col key={iteme._id} sm={12} md={6} lg={4} className="mb-4">
               <Card className="shadow p-3 mb-5 bg-body-tertiary rounded relative">
@@ -68,7 +67,7 @@ function Women() {
                     size={24}
                     onClick={() => handleWishlistToggle(iteme._id)}
                     className={`absolute top-2 right-2 cursor-pointer transition-colors duration-200 ${itemInWishlist ? 'text-red-500 fill-current' : 'text-gray-500 fill-none'}`}
-                    style={{ fill: itemInWishlist ? 'red' : 'none' }} 
+                    
                   />
                 </div>
                 <Card.Body>

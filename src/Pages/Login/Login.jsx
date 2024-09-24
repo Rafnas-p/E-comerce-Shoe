@@ -12,7 +12,7 @@ function Login(props) {
 const {fetchCartItems}=useContext(ShopContext)
 
 const userId=Cookie.get('user')
-console.log("userId",userId);
+
 useEffect(() => {
   if (userId) {
     fetchCartItems(userId); // Fetch cart items from the backend

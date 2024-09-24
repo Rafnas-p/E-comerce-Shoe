@@ -25,9 +25,10 @@ const ShopProvider = ({ children }) => {
   const [dependency, setDependency] = useState();
   const navigate = useNavigate();
   const [wishlist,setWishlist]=useState([])
-  console.log(wishlist);
+  console.log( 'wishlist',wishlist);
   
   const[itemIn,setItemIn]=useState([])
+  
   
 
   // Fetch products from the backend when the component mounts
@@ -244,7 +245,7 @@ const ShopProvider = ({ children }) => {
 
   //whislist
   const addwishlist = async (id) => {
-    console.log('idwihs', id);
+  
     
     try {
       const token = Cookie.get('token');
@@ -296,10 +297,10 @@ const removeWishlist= async(id)=>{
         Authorization: `Bearer ${token}`,
       },
     })
-    const data=await response.json()
+
 let filter = wishlist.filter(item=>item._id!=id)
 setWishlist(filter)
-  console.log('remov',filter);
+  
   
   } catch (error) {
     
@@ -326,7 +327,8 @@ setWishlist(filter)
     addwishlist,
     getwihlist,
     itemIn,
-    removeWishlist
+    removeWishlist,
+    
   };
 
   if (loading) return <p>Loading products...</p>;
