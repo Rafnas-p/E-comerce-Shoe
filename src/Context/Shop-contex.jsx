@@ -82,7 +82,7 @@ const ShopProvider = ({ children }) => {
     }
   };
 
-  //get cart
+  
   const fetchCartItems = async (userId) => {
     try {
       const token = Cookie.get("token");
@@ -113,7 +113,7 @@ const ShopProvider = ({ children }) => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify({ productId, quantity: 1 }), // Send productId and new quantity
+          body: JSON.stringify({ productId, quantity: 1 }), 
         }
       );
 
@@ -121,7 +121,6 @@ const ShopProvider = ({ children }) => {
         throw new Error("Failed to update cart item quantity");
       }
 
-      // const data = await response.json();
     } catch (error) {
       console.error("Error updating cart item quantity:", error);
     }
@@ -145,45 +144,45 @@ const ShopProvider = ({ children }) => {
         throw new Error("Failed to update cart item quantity");
       }
 
-      // const data = await response.json();
+      
     } catch (error) {
       console.error("Error updating cart item quantity:", error);
     }
   };
 
-  // Increment product quantity
+ 
   const incrementQuantity = (productId) => {
     setCartItems((prevCartItems) => {
       const newQuantity = prevCartItems[productId] + 1;
 
-      // Update quantity in the backend
+     
       updateCartItemQuantityIncrement(productId);
       setDependency(newQuantity);
 
       return {
         ...prevCartItems,
-        [productId]: newQuantity, // Increase the quantity
+        [productId]: newQuantity, 
       };
     });
   };
 
-  // Decrement product quantity
+  
 
   const decrementQuantity = (productId) => {
     setCartItems((prevCartItems) => {
       const newQuantity = prevCartItems[productId] - 1;
 
-      // Update quantity in the backend
+      
       updateCartItemQuantityDecrement(productId);
       setDependency(newQuantity);
       return {
         ...prevCartItems,
-        [productId]: newQuantity, // Decrease but don't go below 1
+        [productId]: newQuantity, 
       };
     });
   };
 
-  // Completely remove item from cart
+  
   const removeItemFromCart = async (id) => {
     try {
       const token = Cookie.get("token");
@@ -206,7 +205,7 @@ const ShopProvider = ({ children }) => {
         throw new Error("Failed to remove product from cart");
       }
 
-      // const data = await response.json();
+     
       setDependency(id);
 
       setCartItems((prevItems) => {
@@ -225,20 +224,20 @@ const ShopProvider = ({ children }) => {
     Cookie.remove("cartItems");
   };
 
-  // Calculate the total amount in the cart
+  
 
   const getTotalCartAmount = () => {
     if (!Array.isArray(getCart) || getCart.length === 0) {
-      return 0; // If getCart is empty or not an array, return 0
+      return 0; 
     }
 
     const totalAmount = getCart.reduce((accumulator, cartItem) => {
       const productPrice = cartItem.productId.price;
       const quantity = cartItem.quantity;
 
-      // Add the total price for this item to the accumulator
+      
       return accumulator + productPrice * quantity;
-    }, 0); // Initialize accumulator with 0
+    }, 0); 
 
     return totalAmount;
   };

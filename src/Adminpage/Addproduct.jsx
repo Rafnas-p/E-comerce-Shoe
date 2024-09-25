@@ -1,64 +1,62 @@
-import React, { useState } from 'react';
-import './admin.css';
-import Cookie from 'js-cookie';
+import React, { useState } from "react";
+import "./admin.css";
+import Cookie from "js-cookie";
 
 const Addproduct = () => {
-  const token = Cookie.get('token');
-  console.log("Token:", token); // Log the token to ensure it's available
+  const token = Cookie.get("token");
+  console.log("Token:", token);
 
-  // State to manage form visibility and new product details
   const [showForm, setShowForm] = useState(false);
   const [newProduct, setNewProduct] = useState({
-    name: '',
-    type: '',
-    price: '',
-    image: '',
-    description: '' // Correctly handle description
+    name: "",
+    type: "",
+    price: "",
+    image: "",
+    description: "",
   });
 
-  // Function to handle input changes
   const handleChange = (e) => {
     setNewProduct({
       ...newProduct,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
-  // Function to handle form submission
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent page reload
-    console.log("Submitting product:", newProduct); // Log the form data before submission
+    e.preventDefault();
+    console.log("Submitting product:", newProduct);
 
     try {
-      const response = await fetch('http://localhost:3002/admin/creatProduct', {
-        method: 'POST',
+      const response = await fetch("http://localhost:3002/admin/creatProduct", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(newProduct) // Send product details from form
+        body: JSON.stringify(newProduct),
       });
 
       const data = await response.json();
-      console.log("Product added response:", data); // Log the response from backend
-      
-      // Optionally, you can reset the form fields after submission
+      console.log("Product added response:", data);
+
       setNewProduct({
-        name: '',
-        type: '',
-        price: '',
-        image: '',
-        description: '' // Reset description field
+        name: "",
+        type: "",
+        price: "",
+        image: "",
+        description: "",
       });
+
+      setShowForm(false);
     } catch (error) {
-      console.error('Error adding product:', error); // Log frontend error
+      console.error("Error adding product:", error);
     }
   };
 
   return (
     <>
-      <button className='btn-dlt' onClick={() => setShowForm(!showForm)}>
-        {showForm ? 'Hide Form' : 'Add New Product'}
+      <button className="btn-dlt" onClick={() => setShowForm(!showForm)}>
+        {showForm ? "Hide Form" : "Add New Product"}
       </button>
 
       {showForm && (
@@ -98,8 +96,8 @@ const Addproduct = () => {
             <label>
               Description:
               <input
-                type="text" // Correct type for description
-                name="description" // Correct name for description
+                type="text"
+                name="description"
                 value={newProduct.description}
                 onChange={handleChange}
                 required

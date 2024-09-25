@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Cookie from 'js-cookie';
 import { FiMoreHorizontal } from 'react-icons/fi'; // Import the icon
 
-const OrderDetails = () => {
+const  OrderDtailsUser= () => {
     const token = Cookie.get("token");
     const [order, setOrder] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -124,4 +124,4 @@ const Modal = ({ product, user, onClose }) => {
     );
 };
 
-export default OrderDetails;
+export default OrderDtailsUser;

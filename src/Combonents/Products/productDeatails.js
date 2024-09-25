@@ -1,12 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { Card, Container } from 'react-bootstrap';
+import React, { useEffect, useState, useContext } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { Card, Container, Button } from 'react-bootstrap';
+import { ShopContext } from "../../Context/Shop-contex";
+import Cookie from 'js-cookie';
 
 function ProductDetails() {
   const { id } = useParams(); 
+  const { addToCart, cartItems } = useContext(ShopContext); 
   const [product, setProduct] = useState(null); 
   const [loading, setLoading] = useState(true); 
   const [error, setError] = useState(null); 
+  const isLogged = Cookie.get('token'); 
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -28,6 +33,15 @@ function ProductDetails() {
     fetchProduct(); 
   }, [id]);
 
+  const handleAddToCart = () => {
+    if (isLogged) {
+      addToCart(product._id);
+    } else {
+      alert('Please log in to add to cart.');
+      navigate('/login');
+    }
+  };
+
   if (loading) {
     return <div>Loading...</div>; 
   }
@@ -45,6 +59,13 @@ function ProductDetails() {
             <Card.Title>{product.name}</Card.Title>
             <Card.Text>{product.description}</Card.Text>
             <Card.Text>Price: ₹{product.price}</Card.Text>
+            <Button 
+              variant='dark' 
+              className='w-100' 
+              onClick={handleAddToCart}
+            >
+              Add to Cart {cartItems[product._id] > 0 && `(${cartItems[product._id]})`}
+            </Button>
           </Card.Body>
         </Card>
       )}

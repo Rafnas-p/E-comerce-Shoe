@@ -21,18 +21,18 @@ function Cart() {
   console.log('total2',totalAmount);
   
   const navigate = useNavigate();
-  const userId = Cookie.get('user'); // Adjust this according to your setup
+  const userId = Cookie.get('user'); 
 
   console.log('get', getCart);
   
 
   useEffect(() => {
     if (userId) {
-      fetchCartItems(userId); // Fetch cart items from the backend
+      fetchCartItems(userId); 
     }
   }, [dependency]);
 
-  // Confirmation before removing an item
+  
   const handleRemove = (productId) => {
     if (window.confirm('Are you sure you want to remove this item?')) {
       removeItemFromCart(productId);

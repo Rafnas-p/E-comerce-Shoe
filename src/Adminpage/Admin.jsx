@@ -7,7 +7,7 @@ import { ShopContext } from '../Context/Shop-contex';
 
 function Admin() {
  
-  // const [products, setProducts] = useState(ProductData);
+ 
 const {products, setProducts}=useContext(ShopContext)
   const handleAddProduct = (newProduct) => {
     setProducts((prevProducts) => [...prevProducts, newProduct]);

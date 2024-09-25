@@ -1,106 +1,14 @@
-// import React, { useState, useContext } from 'react';
-// import './SearchBar.css';
-// import SearchIcon from '@mui/icons-material/Search';
-// import CloseIcon from '@mui/icons-material/Close';
-// import { Card, Container, Row, Col, Button } from 'react-bootstrap';
-// import { ShopContext } from '../../Context/Shop-contex';
-// import { ProductData } from '../Products/Prodects';
-
-// function SearchBar() {
-//   const [filteredData, setFilteredData] = useState([]);
-//   const [searchTerm, setSearchTerm] = useState('');
-//   const { addToCart, cartItems } = useContext(ShopContext);
-//   // const [item, setItem] = useState(ProductData);
-
-//   const handleFilter = (event) => {
-//     const searchWord = event.target.value;
-//     setSearchTerm(searchWord);
-
-//     if (searchWord.trim() === "") {
-//       setFilteredData([]);
-//     } else {
-//       const newFilteredData = ProductData.filter((value) =>
-//         value.name.toLowerCase().includes(searchWord.toLowerCase())
-//       );
-//       setFilteredData(newFilteredData);
-//     }
-//   };
-
-//   const clearSearch = () => {
-//     setSearchTerm('');
-//     setFilteredData([]);
-//   };
-
-//   const handleKeyPress = (event) => {
-//     if (event.key === 'Enter') {
-//       // Optional: Add functionality on Enter key press
-//     }
-//   };
-
-  
-
-//   return (
-//     <div className='search'>
-//       <div className='searchInput'>
-//         <input
-//           type='text'
-//           placeholder='Search products...'
-//           value={searchTerm}
-//           onChange={handleFilter}
-//           onKeyPress={handleKeyPress}
-//         />
-//         <div className='searchIcon'>
-//           {filteredData.length === 0 && <SearchIcon />}
-//           {searchTerm && <CloseIcon className='clearIcon' onClick={clearSearch} />}
-//         </div>
-//       </div>
-
-//       {filteredData.length !== 0 && (
-//         <div className='dataResult'>
-//           <Container>
-//             <Row>
-//               {filteredData.slice(0, 4).map((value, key) => {
-//                 const cartItemAmount = cartItems[value.id];
-//                 return (
-//                   <Col key={value.id} sm={12} md={6} lg={4} className="mb-4">
-//                     <Card className="shadow p-3 mb-5 bg-body-tertiary rounded">
-//                       <Card.Img variant="top" src={value.image} alt={value.title} />
-//                       <Card.Body>
-//                         <Card.Title>{value.title}</Card.Title>
-//                         <Card.Text><strong>{value.name}</strong></Card.Text>
-//                         <Card.Text>{value.type}</Card.Text>
-//                         <Card.Text>₹{value.price}</Card.Text>
-                        
-//                         <Button variant='primary' className='addTocartBttn' onClick={() => addToCart(value.id)}>
-//                           Add to Cart {cartItemAmount > 0 && <>({cartItemAmount})</>}
-//                         </Button>
-//                       </Card.Body>
-//                     </Card>
-//                   </Col>
-//                 );
-//               })}
-//             </Row>
-//           </Container>
-//         </div>
-//       )}
-//     </div>
-//   );
-// }
-
-// export default SearchBar;
-
-
-
 import React, { useState, useContext } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import CloseIcon from '@mui/icons-material/Close';
+import { useNavigate } from 'react-router-dom'; 
 import { ShopContext } from '../../Context/Shop-contex';
-import { ProductData } from '../Products/Prodects';
 
 function SearchBar() {
   const [filteredData, setFilteredData] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const { addToCart, cartItems } = useContext(ShopContext);
+  const { addToCart, cartItems, products } = useContext(ShopContext);
+  const navigate = useNavigate(); // Initialize useNavigate
 
   const handleFilter = (event) => {
     const searchWord = event.target.value;
@@ -109,7 +17,7 @@ function SearchBar() {
     if (searchWord.trim() === '') {
       setFilteredData([]);
     } else {
-      const newFilteredData = ProductData.filter((value) =>
+      const newFilteredData = products.filter((value) =>
         value.name.toLowerCase().includes(searchWord.toLowerCase())
       );
       setFilteredData(newFilteredData);
@@ -119,6 +27,16 @@ function SearchBar() {
   const clearSearch = () => {
     setSearchTerm('');
     setFilteredData([]);
+  };
+
+  const handleProductClick = (_id) => {
+    clearSearch();
+    
+    console.log('_id',_id);
+    
+    navigate(`SearchProduct/${_id}`);
+    
+    // Navigate to the product page using the correct ID
   };
 
   return (
@@ -141,16 +59,23 @@ function SearchBar() {
       {filteredData.length !== 0 && (
         <div className="absolute w-full bg-white shadow-lg max-h-60 overflow-y-auto mt-1 rounded-lg z-10">
           {filteredData.slice(0, 4).map((value) => {
-            const cartItemAmount = cartItems[value.id];
+            const cartItemAmount = cartItems[value._id] || 0; // Access cart items using _id
             return (
-              <div key={value.id} className="p-2 hover:bg-gray-100 flex justify-between items-center">
+              <div
+                key={value._id} // Use _id as the key
+                className="p-2 hover:bg-gray-100 flex justify-between items-center cursor-pointer"
+                onClick={() => handleProductClick(value._id)} // Navigate to the product page
+              >
                 <div>
                   <p className="text-sm font-medium">{value.title}</p>
                   <p className="text-xs text-gray-500">{value.name}</p>
                 </div>
                 <button
                   className="bg-blue-500 text-white text-xs py-1 px-2 rounded"
-                  onClick={() => addToCart(value.id)}
+                  onClick={(e) => {
+                    e.stopPropagation(); // Prevent navigating when clicking "Add to Cart"
+                    addToCart(value._id); // Ensure adding to cart with _id
+                  }}
                 >
                   Add to Cart {cartItemAmount > 0 && `(${cartItemAmount})`}
                 </button>
@@ -164,6 +89,5 @@ function SearchBar() {
 }
 
 export default SearchBar;
-
 
 

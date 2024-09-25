@@ -19,7 +19,10 @@ import UserDetails from './Adminpage/User/Userdeatails';
 import AdminHom from './Adminpage/AdminHom';
 import ProductDetails from './Combonents/Products/productDeatails';
 import Wishlist from './Combonents/Products/Wishlist';
-import OrderDtails from './Combonents/Cart/OrderDtails';
+import OrderDetails from './Adminpage/OrderDetails';
+import OrderDtailsUser from './Combonents/Cart/OrderDtailsUser';
+import SearchProduct from './Combonents/Search/SearchProduct';
+import ProtectedRoute from './Combonents/protectRouter/ProtectedRoute';
 export default function App() {
   const location = useLocation();
   const isAdminpath = location.pathname.startsWith('/admin');
@@ -36,15 +39,16 @@ export default function App() {
           <Route path='collections' element={<Collection />} />
           <Route path='/cart' element={<Cart />} />
           <Route path='payment' element={<Checkout />} />
-          <Route path='/admin' element={<Admin />} />
-          <Route path='/admin/prodect' element={<ProductFilter />} />
-          <Route path='admin/registerduser' element={<RegisterdUser />} />
-          <Route path='admin/registerduser/:_id' element={<UserDetails />} />
-          <Route path='/admin/adminhome' element={<AdminHom />} />
+          <Route path='/admin' element={<ProtectedRoute element={<Admin />}/>} />
+          <Route path='/admin/prodect' element={<ProtectedRoute element={<ProductFilter />}/>} />
+          <Route path='admin/registerduser' element={<ProtectedRoute element={<RegisterdUser />}/>} />
+          <Route path='admin/registerduser/:_id' element={<ProtectedRoute element={<UserDetails />}/>} />
+          <Route path='/admin/adminhome' element={<ProtectedRoute element={<AdminHom />}/>} />
           <Route path='/productDetails/:id' element={<ProductDetails />} /> 
           <Route path='/Wishlist' element={<Wishlist />} /> 
-          <Route path='/OrderDtails' element={<OrderDtails />} /> 
-          
+          <Route path='admin/OrderDetails' element={<ProtectedRoute element={<OrderDetails />}/>} /> 
+          <Route path='/OrderDtailsUser' element={<OrderDtailsUser />} /> 
+          <Route path="/SearchProduct/:_id" element={<SearchProduct />} />
         </Routes>
 
         {!isAdminpath && <Footer />}

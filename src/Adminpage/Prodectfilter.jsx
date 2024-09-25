@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import './admin.css';
 import Edditprodect from './Edditprodect';
 import Cookie from 'js-cookie';
 
-function ProductFilter({  }) {
+function ProductFilter() {
   const [products, setProducts] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [editingProduct, setEditingProduct] = useState(null);
@@ -11,7 +10,6 @@ function ProductFilter({  }) {
   const categories = ['all', 'men', 'women'];
   const token = Cookie.get('token');
 
-  // Fetch products from the backend when the component mounts
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -37,6 +35,7 @@ function ProductFilter({  }) {
     setEditPosition({ top: rect.top + window.scrollY, left: rect.left + window.scrollX });
     setEditingProduct(product);
   };
+
   const handleUpdateProduct = async (updatedProduct) => {
     try {
       const response = await fetch(`http://localhost:3002/admin/updateproduct/${updatedProduct._id}`, {
@@ -45,7 +44,7 @@ function ProductFilter({  }) {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(updatedProduct), // Make sure you're sending the entire product object
+        body: JSON.stringify(updatedProduct),
       });
   
       const data = await response.json();
@@ -55,8 +54,8 @@ function ProductFilter({  }) {
             product._id === updatedProduct._id ? data.product : product
           )
         );
-        alert(data.message); // Notify success
-        setEditingProduct(null); // Close the edit form
+        alert(data.message);
+        setEditingProduct(null);
       } else {
         console.error('Error updating product:', data.message);
       }
@@ -64,8 +63,9 @@ function ProductFilter({  }) {
       console.error('Error:', error);
     }
   };
+
   const onDeleteProduct = async (productId) => {
-    const token = Cookie.get('token'); // Ensure token is available for authorization
+    const token = Cookie.get('token');
     try {
       const response = await fetch(`http://localhost:3002/admin/deleatProduct/${productId}`, {
         method: 'DELETE',
@@ -78,7 +78,7 @@ function ProductFilter({  }) {
       const data = await response.json();
       if (response.ok) {
         setProducts(prevProducts => prevProducts.filter(product => product._id !== productId));
-        alert(data.message); // Notify success
+        alert(data.message);
       } else {
         console.error('Error deleting product:', data.message);
       }
@@ -86,30 +86,54 @@ function ProductFilter({  }) {
       console.error('Error:', error);
     }
   };
-  
-  
+
   return (
-    <div className="product-filter-container">
-      <h2>Products</h2>
-      <select onChange={(e) => setSelectedCategory(e.target.value)}>
-        {categories.map(category => (
-          <option key={category} value={category}>
-            {category}
-          </option>
-        ))}
-      </select>
-      <div className="product-list">
+    <div className="product-filter-container p-6">
+      <h2 className="text-3xl font-bold mb-6 text-center">Products</h2>
+
+      {/* Category Filter Dropdown */}
+      <div className="flex justify-center mb-8">
+        <select
+          onChange={(e) => setSelectedCategory(e.target.value)}
+          className="p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-indigo-500"
+        >
+          {categories.map(category => (
+            <option key={category} value={category}>
+              {category.charAt(0).toUpperCase() + category.slice(1)}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      {/* Products Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         {filteredProducts.map(product => (
-          <div key={product._id} className="product-item">
-            <img src={product.image} alt={product.name} />
-            <h3>{product.name}</h3>
-            <h6>{product.type}</h6>
-            <p>Price: ₹{product.price}</p>
-            <button className='btn-dlt' onClick={() => onDeleteProduct(product._id)}>Delete</button>
-            <button className='btn-edit' onClick={(e) => handleEditClick(product, e)}>Edit</button>
+          <div key={product._id} className="product-item p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition duration-300">
+            <img src={product.image} alt={product.name} className="w-full h-48 object-cover mb-4 rounded-lg" />
+            <h3 className="text-xl font-semibold">{product.name}</h3>
+            <h6 className="text-gray-600">{product.type}</h6>
+            <p className="text-lg font-bold mt-2">Price: ₹{product.price}</p>
+            
+            {/* Action Buttons */}
+            <div className="mt-4 flex justify-between">
+              <button
+                className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition duration-300"
+                onClick={() => onDeleteProduct(product._id)}
+              >
+                Delete
+              </button>
+              <button
+                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300"
+                onClick={(e) => handleEditClick(product, e)}
+              >
+                Edit
+              </button>
+            </div>
           </div>
         ))}
       </div>
+
+      {/* Edit Product Modal */}
       {editingProduct && (
         <Edditprodect
           product={editingProduct}
