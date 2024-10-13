@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -19,10 +18,10 @@ function Registration(props) {
         body: JSON.stringify({ username: name, email, password }),
       });
       const data = await response.json();
-      
+
       if (response.ok) {
         alert('Registration successful!');
-        navigate(props.onFormSwitch('login')); // Redirect to login page
+        navigate(props.onFormSwitch('login')); 
       } else {
         setError(data.message);
       }
@@ -31,30 +30,18 @@ function Registration(props) {
     }
   };
 
-  //   const newUser = {
-  //     id: Date.now().toString(), 
-  //     name,
-  //     email,
-  //     password,
-  //   };
-
-  //   let users = JSON.parse(localStorage.getItem('users')) || [];
-  //   const userExists = users.find(user => user.email === email);
-
-  //   if (userExists) {
-  //     alert('User already exists with this email');
-  //     return;
-  //   }
-
-  //   users.push(newUser);
-  //   localStorage.setItem('users', JSON.stringify(users));
-  //   navigate(props.onFormSwitch('login'));
-  // };
-
   return (
-    <div className='flex items-center justify-center min-h-screen bg-gray-100 p-4'>
+    <div className='flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4'>
+    
+      <div className="flex items-center mb-8">
+        <h6 className="text-3xl font-bold no-underline text-black hover:text-blue-600" >
+          WAN<span className="text-red-600">O</span>SHOE
+        </h6>
+      </div>
+
       <div className='w-full max-w-md bg-white shadow-lg rounded-lg p-8'>
-        <form className='space-y-4' onSubmit={handleSubmit} method='POST' action=''>
+        <form className='space-y-4' onSubmit={handleSubmit}>
+          {error && <p className='text-red-500 text-center'>{error}</p>} {/* Error message display */}
           <div className='mb-4'>
             <label htmlFor='name' className='block text-gray-700 font-semibold mb-2'>Full name</label>
             <input
@@ -111,5 +98,3 @@ function Registration(props) {
 }
 
 export default Registration;
-
-

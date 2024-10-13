@@ -24,12 +24,10 @@ const ShopProvider = ({ children }) => {
   const [error, setError] = useState(null);
   const [dependency, setDependency] = useState();
   const navigate = useNavigate();
-  const [wishlist,setWishlist]=useState([])
-  console.log( 'wishlist',wishlist);
-  
-  const[itemIn,setItemIn]=useState([])
-  
-  
+  const [wishlist, setWishlist] = useState([]);
+  console.log("wishlist", wishlist);
+
+  const [itemIn, setItemIn] = useState([]);
 
   // Fetch products from the backend when the component mounts
   useEffect(() => {
@@ -82,7 +80,6 @@ const ShopProvider = ({ children }) => {
     }
   };
 
-  
   const fetchCartItems = async (userId) => {
     try {
       const token = Cookie.get("token");
@@ -113,14 +110,13 @@ const ShopProvider = ({ children }) => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify({ productId, quantity: 1 }), 
+          body: JSON.stringify({ productId, quantity: 1 }),
         }
       );
 
       if (!response.ok) {
         throw new Error("Failed to update cart item quantity");
       }
-
     } catch (error) {
       console.error("Error updating cart item quantity:", error);
     }
@@ -143,46 +139,38 @@ const ShopProvider = ({ children }) => {
       if (!response.ok) {
         throw new Error("Failed to update cart item quantity");
       }
-
-      
     } catch (error) {
       console.error("Error updating cart item quantity:", error);
     }
   };
 
- 
   const incrementQuantity = (productId) => {
     setCartItems((prevCartItems) => {
       const newQuantity = prevCartItems[productId] + 1;
 
-     
       updateCartItemQuantityIncrement(productId);
       setDependency(newQuantity);
 
       return {
         ...prevCartItems,
-        [productId]: newQuantity, 
+        [productId]: newQuantity,
       };
     });
   };
-
-  
 
   const decrementQuantity = (productId) => {
     setCartItems((prevCartItems) => {
       const newQuantity = prevCartItems[productId] - 1;
 
-      
       updateCartItemQuantityDecrement(productId);
       setDependency(newQuantity);
       return {
         ...prevCartItems,
-        [productId]: newQuantity, 
+        [productId]: newQuantity,
       };
     });
   };
 
-  
   const removeItemFromCart = async (id) => {
     try {
       const token = Cookie.get("token");
@@ -205,7 +193,6 @@ const ShopProvider = ({ children }) => {
         throw new Error("Failed to remove product from cart");
       }
 
-     
       setDependency(id);
 
       setCartItems((prevItems) => {
@@ -224,87 +211,79 @@ const ShopProvider = ({ children }) => {
     Cookie.remove("cartItems");
   };
 
-  
-
   const getTotalCartAmount = () => {
     if (!Array.isArray(getCart) || getCart.length === 0) {
-      return 0; 
+      return 0;
     }
 
     const totalAmount = getCart.reduce((accumulator, cartItem) => {
       const productPrice = cartItem.productId.price;
       const quantity = cartItem.quantity;
 
-      
       return accumulator + productPrice * quantity;
-    }, 0); 
+    }, 0);
 
     return totalAmount;
   };
 
   //whislist
   const addwishlist = async (id) => {
-  
-    
     try {
-      const token = Cookie.get('token');
-      const response = await fetch('http://localhost:3002/users/wishlist/add', {
-        method: 'POST',
+      const token = Cookie.get("token");
+      const response = await fetch("http://localhost:3002/users/wishlist/add", {
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ productId: id }),
       });
-   // Update wishlist with the response data
-      const data=await response.json()
-      setItemIn(data)
+      const data = await response.json();
+      setItemIn(data);
     } catch (error) {
       console.error("Error adding to wishlist:", error);
     }
   };
 
-//getwishlist
+  //getwishlist
 
-const getwihlist =async()=>{
-  try {
-    const token=Cookie.get('token');
-    const response=await fetch('http://localhost:3002/users/gettwishlist',{
-      method: 'GET',
-      headers:{
-        "Content-Type": "application/json",
+  const getwihlist = async () => {
+    try {
+      const token = Cookie.get("token");
+      const response = await fetch("http://localhost:3002/users/gettwishlist", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
-      }    
-    });
-    const data= await response.json()
-    setWishlist(data)
-    
-    
-  } catch (error) {
-    console.error("Error adding to wishlist:", error);
-    
-  }
-}
+        },
+      });
+      const data = await response.json();
+      setWishlist(data);
+    } catch (error) {
+      console.error("Error adding to wishlist:", error);
+    }
+  };
 
-const removeWishlist= async(id)=>{
-  try {
-    const token=Cookie.get('token');
-    const response=await fetch(`http://localhost:3002/users/removewishlist/${id}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    })
+  const removeWishlist = async (id) => {
+    try {
+      const token = Cookie.get("token");
+      const response = await fetch(
+        `http://localhost:3002/users/removewishlist/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
-let filter = wishlist.filter(item=>item._id!=id)
-setWishlist(filter)
-  
-  
-  } catch (error) {
-    
-  }
- }
+      let filter = wishlist.filter((item) => item._id != id);
+      setWishlist(filter);
+    } catch (error) {
+      console.error("Error adding to wishlist:", error);
+    }
+  };
 
   const contextValue = {
     cartItems,
@@ -327,7 +306,6 @@ setWishlist(filter)
     getwihlist,
     itemIn,
     removeWishlist,
-    
   };
 
   if (loading) return <p>Loading products...</p>;

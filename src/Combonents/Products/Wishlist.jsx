@@ -4,7 +4,7 @@ import { FiTrash } from "react-icons/fi";
 import Cookie from "js-cookie";
 
 function Wishlist() {
-  const { wishlist, getwihlist, removeWishlist, addWishlistItem, setWishlist } =
+  const { wishlist, getwihlist, removeWishlist, setWishlist } =
     useContext(ShopContext);
   const [showConfirm, setShowConfirm] = useState(null);
   const [wishlistFetched, setWishlistFetched] = useState(false);

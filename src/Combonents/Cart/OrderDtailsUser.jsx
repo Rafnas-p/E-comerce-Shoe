@@ -9,7 +9,7 @@ const  OrderDtailsUser= () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [selectedProduct, setSelectedProduct] = useState(null);
-    const [selectedUser, setSelectedUser] = useState(null); // State to hold user details
+    const [selectedUser, setSelectedUser] = useState(null); 
 
     useEffect(() => {
         const fetchOrderDetails = async () => {
@@ -47,12 +47,12 @@ const  OrderDtailsUser= () => {
 
     const handleProductClick = (product, user) => {
         setSelectedProduct(product);
-        setSelectedUser(user); // Store the selected user's details
+        setSelectedUser(user); 
     };
 
     const closeModal = () => {
         setSelectedProduct(null);
-        setSelectedUser(null); // Clear user details on modal close
+        setSelectedUser(null);
     };
 
     if (loading) {

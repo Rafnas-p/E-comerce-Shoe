@@ -1,24 +1,16 @@
-import React from 'react';
-import { Route, Navigate } from 'react-router-dom';
-import Cookie from 'js-cookie';
+import React from "react";
+import {  Navigate } from "react-router-dom";
+import Cookie from "js-cookie";
 
-const ProtectedRoute = ({ element: Element, adminOnly = false, ...rest }) => {
-  const token = Cookie.get('token'); 
-  const userRole = Cookie.get('role'); 
+const ProtectedRoute = ({ children }) => {
+  const userRole = Cookie.get("role");
 
-  const isLoggedIn = !!token; 
-  const isAdmin = userRole === 'admin'; 
+  const isAdmin = userRole === "admin";
+  if (isAdmin === false) {
+    return <Navigate to={"/"} />;
+  }
 
-  return (
-    <Route
-      {...rest}
-      element={
-        isLoggedIn && (!adminOnly || isAdmin) 
-          ? Element 
-          : <Navigate to="/login" replace /> 
-      }
-    />
-  );
+  return children;
 };
 
 export default ProtectedRoute;

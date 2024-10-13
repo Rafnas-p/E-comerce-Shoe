@@ -97,7 +97,7 @@ function Nav() {
                       <Link to="/OrderDtailsUser" className="flex items-center px-4 py-2 text-gray-800 hover:bg-gray-200 no-underline">
                         Order Details
                       </Link>
-                      <button onClick={handleLogout} className="flex items-center w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-200 no-underline">
+                      <button onClick={handleLogout} className="block w-full text-left px-4 py-2 hover:bg-red-200 text-red-600">
                         Logout
                       </button>
                     </>
@@ -106,9 +106,7 @@ function Nav() {
                       <Link to="login" className="flex items-center px-4 py-2 text-gray-800 hover:bg-gray-200 no-underline">
                         Login
                       </Link>
-                      <Link to="/OrderDetails" className="flex items-center px-4 py-2 text-gray-800 hover:bg-gray-200 no-underline">
-                        Order Details
-                      </Link>
+                     
                     </>
                   )}
                 </div>

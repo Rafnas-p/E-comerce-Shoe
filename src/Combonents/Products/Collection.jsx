@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect, useMemo } from "react";
+import React, { useContext, useState, useEffect, useMemo, useRef } from "react";
 import { Card, Container, Row, Col, Button, Dropdown } from "react-bootstrap";
 import "./collection.css";
 import { ShopContext } from "../../Context/Shop-contex";
@@ -9,15 +9,20 @@ import { FiHeart } from "react-icons/fi";
 function Collection() {
   const [filter, setFilter] = useState("all");
   const [products, setProducts] = useState([]);
+  const [displayedProducts, setDisplayedProducts] = useState([]); 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const { addToCart, cartItems, addwishlist, wishlist, getwihlist } =
+  const { addToCart, addwishlist, wishlist, getwihlist } =
     useContext(ShopContext);
   const navigate = useNavigate();
   const isLogged = Cookies.get("token");
 
   const [localWishlist, setLocalWishlist] = useState([]);
+  const observerRef = useRef(); 
+  const [page, setPage] = useState(1); 
+  const itemsPerPage = 8; 
 
+  
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -27,28 +32,29 @@ function Collection() {
         }
         const data = await response.json();
         setProducts(data);
+        setDisplayedProducts(data.slice(0, itemsPerPage)); 
       } catch (err) {
         setError(err.message);
       } finally {
         setLoading(false);
       }
     };
-
     fetchProducts();
   }, []);
 
+  // Fetch wishlist data
   useEffect(() => {
     const fetchWishlist = async () => {
       try {
-        await getwihlist(); 
+        await getwihlist();
       } catch (err) {
         console.error("Failed to fetch wishlist", err);
       }
     };
-
     fetchWishlist();
-  }, []); 
+  }, []);
 
+  // Sync local wishlist with products
   useEffect(() => {
     if (products.length) {
       const updatedWishlist = products.map((product) => ({
@@ -61,13 +67,34 @@ function Collection() {
     }
   }, [wishlist, products]);
 
-  const handleFilterChange = (filter) => {
-    setFilter(filter);
+  // Lazy load more products when user scrolls near the bottom
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && !loading) {
+          loadMoreProducts();
+        }
+      },
+      { threshold: 1.0 }
+    );
+    if (observerRef.current) observer.observe(observerRef.current);
+    return () => observer.disconnect(); 
+  }, [displayedProducts, loading]);
+
+  // Load more products when the observer is triggered
+  const loadMoreProducts = () => {
+    const nextPage = page + 1;
+    const newProducts = products.slice(
+      (nextPage - 1) * itemsPerPage,
+      nextPage * itemsPerPage
+    );
+    setDisplayedProducts((prev) => [...prev, ...newProducts]);
+    setPage(nextPage);
   };
 
-  const handleViewDetails = (id) => {
-    navigate(`/productDetails/${id}`);
-  };
+  const handleFilterChange = (filter) => setFilter(filter);
+
+  const handleViewDetails = (id) => navigate(`/productDetails/${id}`);
 
   const handleWishlistToggle = (productId) => {
     if (isLogged) {
@@ -87,13 +114,12 @@ function Collection() {
 
   const filteredProducts = useMemo(() => {
     return filter === "all"
-      ? products
-      : products.filter((product) => product.type === filter);
-  }, [filter, products]);
+      ? displayedProducts
+      : displayedProducts.filter((product) => product.type === filter);
+  }, [filter, displayedProducts]);
 
   if (loading) return <p className="text-center text-xl">Loading...</p>;
-  if (error)
-    return <p className="text-center text-xl text-red-600">Error: {error}</p>;
+  if (error) return <p className="text-center text-xl text-red-600">Error: {error}</p>;
 
   return (
     <Container>
@@ -113,7 +139,6 @@ function Collection() {
 
       <Row>
         {filteredProducts.map((iteme) => {
-          const cartItemAmount = cartItems[iteme._id];
           const itemInWishlist = localWishlist.find(
             (item) => item.id === iteme._id
           )?.inWishlist;
@@ -159,8 +184,7 @@ function Collection() {
                           : (alert("Please Login"), navigate("/login"))
                       }
                     >
-                      Add to Cart{" "}
-                      {cartItemAmount > 0 && <>({cartItemAmount})</>}
+                      Add to Cart
                     </Button>
                   </div>
                 </Card.Body>
@@ -169,6 +193,8 @@ function Collection() {
           );
         })}
       </Row>
+
+      <div ref={observerRef} className="h-10" /> {/* Observer Target */}
     </Container>
   );
 }

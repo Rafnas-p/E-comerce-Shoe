@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import "./admin.css";
 import Cookie from "js-cookie";
-
-const Addproduct = () => {
+const Addproduct = ({setRefresh}) => {
   const token = Cookie.get("token");
-  console.log("Token:", token);
+  
 
   const [showForm, setShowForm] = useState(false);
   const [newProduct, setNewProduct] = useState({
@@ -37,7 +36,9 @@ const Addproduct = () => {
       });
 
       const data = await response.json();
+      
       console.log("Product added response:", data);
+      setRefresh(data)
 
       setNewProduct({
         name: "",
@@ -47,11 +48,13 @@ const Addproduct = () => {
         description: "",
       });
 
+
       setShowForm(false);
     } catch (error) {
       console.error("Error adding product:", error);
     }
   };
+   
 
   return (
     <>

@@ -1,6 +1,5 @@
-
 import React, { useContext, useState, useEffect, useMemo } from 'react';
-import { Card, Container, Row, Col, Button, Dropdown } from 'react-bootstrap';
+import { Card, Container, Row, Col, Button } from 'react-bootstrap';
 import { ShopContext } from "../../Context/Shop-contex";
 import './collection.css';
 import { useNavigate } from 'react-router-dom';
@@ -8,7 +7,7 @@ import Cookie from 'js-cookie';
 import { FiHeart } from 'react-icons/fi';
 
 function Men() {
-  const { addToCart, cartItems, addwishlist, wishlist,getwihlist } = useContext(ShopContext);
+  const { addToCart, addwishlist, wishlist, getwihlist } = useContext(ShopContext);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -16,10 +15,8 @@ function Men() {
   const navigate = useNavigate();
   const isLogged = Cookie.get('token');
   
-  // State to manage local wishlist
   const [localWishlist, setLocalWishlist] = useState([]);
 
-  // Fetch products on component mount
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -28,7 +25,7 @@ function Men() {
           throw new Error("Network response was not ok");
         }
         const data = await response.json();
-        setProducts(data.filter(item => item.type === "men")); // Filter men products
+        setProducts(data.filter(item => item.type === "men")); 
       } catch (err) {
         setError(err.message);
       } finally {
@@ -37,7 +34,7 @@ function Men() {
     };
 
     fetchProducts();
-  }, []); // Only run on mount
+  }, []); 
 
   useEffect(() => {
     const fetchWishlist = async () => {
@@ -51,11 +48,10 @@ function Men() {
     fetchWishlist();
   }, []); 
 
-  // Sync local wishlist with the context wishlist whenever wishlist changes
   useEffect(() => {
     const updatedWishlist = products.map(product => ({
       id: product._id,
-      inWishlist: wishlist.some(wishItem => wishItem._id === product._id),
+      inWishlist: Array.isArray(wishlist) && wishlist.some(wishItem => wishItem._id === product._id),
     }));
     setLocalWishlist(updatedWishlist);
   }, [wishlist, products]);
@@ -94,13 +90,10 @@ function Men() {
   return (
     <Container>
      <h1 className="text-4xl font-extrabold text-left my-4 text-black shadow-lg py-2 px-4">
-        men
+        Men
       </h1>
-
-
       <Row>
         {filteredProducts.map((iteme) => {
-          const cartItemAmount = cartItems[iteme._id];
           const itemInWishlist = localWishlist.find(item => item.id === iteme._id)?.inWishlist;
 
           return (
@@ -132,7 +125,7 @@ function Men() {
                       className='addTocartBttn w-32 sm:w-40 md:w-48 mt-2 py-2 text-lg bg-black text-white rounded-lg transition duration-400 hover:bg-gray-800'
                       onClick={() => isLogged ? addToCart(iteme._id) : (alert('Please Login'), navigate('/login'))}
                     >
-                      Add to Cart {cartItemAmount > 0 && <>({cartItemAmount})</>}
+                      Add to Cart 
                     </Button>
                   </div>
                 </Card.Body>

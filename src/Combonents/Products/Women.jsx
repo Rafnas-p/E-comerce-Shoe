@@ -7,7 +7,7 @@ import Cookie from 'js-cookie';
 import { FiHeart } from 'react-icons/fi';
 
 function Women() {
-  const { addToCart, cartItems, addwishlist, wishlist,getwihlist } = useContext(ShopContext);
+  const { addToCart,  addwishlist, wishlist,getwihlist } = useContext(ShopContext);
   const [item, setItem] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -98,7 +98,7 @@ function Women() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {filteredProducts.map((iteme) => {
-          const cartItemAmount = cartItems[iteme._id];
+          
           const itemInWishlist = localWishlist.find(item => item.id === iteme._id)?.inWishlist;
 
           return (
@@ -130,7 +130,7 @@ function Women() {
       className='addTocartBttn w-32 sm:w-40 md:w-48 mt-2 py-2 text-lg bg-black text-white rounded-lg transition duration-400 hover:bg-gray-800'
       onClick={() => isLogged ? addToCart(iteme._id) : (alert('Please Login'), navigate('/login'))}
   >
-      Add to Cart {cartItemAmount > 0 && <>({cartItemAmount})</>}
+      Add to Cart 
   </Button>
 </div>
 

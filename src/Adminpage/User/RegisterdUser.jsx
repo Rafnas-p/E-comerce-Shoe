@@ -10,13 +10,13 @@ import Cookie from 'js-cookie'
     const fetchUsers= async()=>{
       try {
 
-        const token = Cookie.get('token'); // Ensure token is fetched correctly
+        const token = Cookie.get('token'); 
         if (!token) {
           console.log('User is not logged in');
           return;
         }
         
-        const isLogged=Cookie.get('isLogged')
+        
         const response= await fetch('http://localhost:3002/admin/viewAllUsers',{
           method:'GET',
     headers:{  "Content-Type": "application/json",
@@ -25,7 +25,7 @@ import Cookie from 'js-cookie'
         })
         if (response.ok) {
           const data = await response.json();
-          setUsers(data.users); // Ensure you use `data.users`
+          setUsers(data.users); 
 
           console.log('fetch users',users);
           

@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import Cookie from "js-cookie";
+import { useNavigate } from "react-router-dom";
 
 const Checkout = () => {
+  const navigate = useNavigate();
   const [userDetails, setUserDetails] = useState({
     name: "",
     place: "",
@@ -47,8 +49,7 @@ const Checkout = () => {
         description: "Thank you for buying",
         order_id: orderId,
         handler: function (response) {
-          const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
-            response;
+          const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = response;
           verifyPayment(
             razorpay_order_id,
             razorpay_payment_id,
@@ -100,14 +101,16 @@ const Checkout = () => {
       }
 
       console.log("Payment verified:", data);
+      
+      navigate("/OrderDtailsUser");
     } catch (error) {
       console.error("Error verifying payment:", error);
     }
   };
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold mb-4 text-center">Checkout</h2>
+    <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-lg border border-gray-300">
+      <h2 className="text-2xl font-bold mb-4 text-center text-gray-800">Checkout</h2>
       <input
         type="text"
         name="name"

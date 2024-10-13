@@ -1,29 +1,28 @@
-
 import React, { useContext, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import Cookie from 'js-cookie'; // For handling cookies
+import { useNavigate} from 'react-router-dom';
+import Cookie from 'js-cookie'; 
 import { ShopContext } from '../../Context/Shop-contex';
+
 function Login(props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loginSuccess, setLoginSuccess] = useState(false);
   const navigate = useNavigate();
-const {fetchCartItems}=useContext(ShopContext)
+  const { fetchCartItems } = useContext(ShopContext);
 
-const userId=Cookie.get('user')
+  const userId = Cookie.get('user');
 
-useEffect(() => {
-  if (userId) {
-    fetchCartItems(userId); // Fetch cart items from the backend
-  }
-}, [userId]);
-
+  useEffect(() => {
+    if (userId) {
+      fetchCartItems(userId); 
+    }
+  }, [userId, fetchCartItems]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Determine whether to hit admin or user login API based on email
+    
     const isAdmin = email === 'admin@gmail.com';
     const url = isAdmin ? 'http://localhost:3002/admin/adminlogin' : 'http://localhost:3002/users/login';
 
@@ -36,26 +35,28 @@ useEffect(() => {
 
       const data = await response.json();
 
+      if(isAdmin){
+        Cookie.set('role','admin')
+      }else{
+        Cookie.set('role','user')
+
+      }
       console.log(data);
-      
-      console.log(data.user.id);
 
       if (response.ok) {
-        // Store the token in cookies
+      
         Cookie.set('token', data.token);
         Cookie.set('isLogged', true);
-        Cookie.set('user',data.user.id)        
-        
+        Cookie.set('user', data.user.id);
 
-        // Handle success: Redirect to the appropriate page
+      
         setLoginSuccess(true);
         setTimeout(() => {
           navigate(isAdmin ? '/admin/adminhome' : '/');
         }, 2000);
       } else {
-        setError(data.message); // Show error message if login fails
+        setError(data.message); 
       }
- 
     } catch (error) {
       setError('An error occurred while logging in. Please try again.');
     }
@@ -65,6 +66,12 @@ useEffect(() => {
     <>
       <div className='flex items-center justify-center min-h-screen bg-gray-100 p-4'>
         <div className='w-full max-w-md bg-white shadow-lg rounded-lg p-8'>
+          
+          <div className="flex items-center mb-6">
+            <h6 className="text-3xl font-bold no-underline text-black hover:text-blue-600" >
+              WAN<span className="text-red-600">O</span>SHOE
+            </h6>
+          </div>
           <form className='space-y-4' onSubmit={handleSubmit}>
             <h3 className='text-2xl font-bold mb-4 text-center'>Welcome to Wano</h3>
             <div className='mb-4'>

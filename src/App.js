@@ -39,14 +39,14 @@ export default function App() {
           <Route path='collections' element={<Collection />} />
           <Route path='/cart' element={<Cart />} />
           <Route path='payment' element={<Checkout />} />
-          <Route path='/admin' element={<ProtectedRoute element={<Admin />}/>} />
-          <Route path='/admin/prodect' element={<ProtectedRoute element={<ProductFilter />}/>} />
-          <Route path='admin/registerduser' element={<ProtectedRoute element={<RegisterdUser />}/>} />
-          <Route path='admin/registerduser/:_id' element={<ProtectedRoute element={<UserDetails />}/>} />
-          <Route path='/admin/adminhome' element={<ProtectedRoute element={<AdminHom />}/>} />
+          <Route path='/admin' element={<ProtectedRoute><Admin/></ProtectedRoute>} />
+          <Route path='/admin/prodect' element={<ProtectedRoute><ProductFilter/></ProtectedRoute>} />
+          <Route path='admin/registerduser' element={<ProtectedRoute><RegisterdUser /></ProtectedRoute>}/>
+          <Route path='admin/registerduser/:_id' element={<ProtectedRoute><UserDetails /></ProtectedRoute>} />
+          <Route path='/admin/adminhome' element={<ProtectedRoute><AdminHom/></ProtectedRoute>} />
           <Route path='/productDetails/:id' element={<ProductDetails />} /> 
           <Route path='/Wishlist' element={<Wishlist />} /> 
-          <Route path='admin/OrderDetails' element={<ProtectedRoute element={<OrderDetails />}/>} /> 
+          <Route path='admin/OrderDetails' element={<ProtectedRoute><OrderDetails /></ProtectedRoute>} /> 
           <Route path='/OrderDtailsUser' element={<OrderDtailsUser />} /> 
           <Route path="/SearchProduct/:_id" element={<SearchProduct />} />
         </Routes>

@@ -1,4 +1,4 @@
-import React, { useContext} from 'react';
+import React, { useContext, useState} from 'react';
 import AdminNav from './AdminNav';
 import ProductFilter from './Prodectfilter';
 import Addproduct from './Addproduct';
@@ -6,7 +6,7 @@ import './admin.css';
 import { ShopContext } from '../Context/Shop-contex';
 
 function Admin() {
- 
+  const [refresh,setRefresh]=useState(false)
  
 const {products, setProducts}=useContext(ShopContext)
   const handleAddProduct = (newProduct) => {
@@ -29,9 +29,10 @@ const {products, setProducts}=useContext(ShopContext)
     <>
        <AdminNav/>
       <div>
-        <h1>Prodect deatials</h1>
-        <Addproduct onAddProduct={handleAddProduct} />
+        <h1>Product details</h1>
+        <Addproduct setRefresh={setRefresh} onAddProduct={handleAddProduct} />
         <ProductFilter
+        refresh={refresh}
           products={products}
           onAddProduct={handleAddProduct}
           onUpdateProduct={handleUpdateProduct}

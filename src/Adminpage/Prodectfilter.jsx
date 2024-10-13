@@ -2,13 +2,14 @@ import React, { useState, useEffect } from 'react';
 import Edditprodect from './Edditprodect';
 import Cookie from 'js-cookie';
 
-function ProductFilter() {
+function ProductFilter({refresh}) {
   const [products, setProducts] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [editingProduct, setEditingProduct] = useState(null);
   const [editPosition, setEditPosition] = useState({ top: 0, left: 0 });
   const categories = ['all', 'men', 'women'];
   const token = Cookie.get('token');
+ console.log(refresh)
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -24,7 +25,7 @@ function ProductFilter() {
       }
     };
     fetchProducts();
-  }, []);
+  }, [refresh]);
 
   const filteredProducts = selectedCategory === 'all'
     ? products
@@ -91,7 +92,7 @@ function ProductFilter() {
     <div className="product-filter-container p-6">
       <h2 className="text-3xl font-bold mb-6 text-center">Products</h2>
 
-      {/* Category Filter Dropdown */}
+    
       <div className="flex justify-center mb-8">
         <select
           onChange={(e) => setSelectedCategory(e.target.value)}
@@ -105,7 +106,7 @@ function ProductFilter() {
         </select>
       </div>
 
-      {/* Products Grid */}
+
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         {filteredProducts.map(product => (
           <div key={product._id} className="product-item p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition duration-300">
@@ -114,7 +115,7 @@ function ProductFilter() {
             <h6 className="text-gray-600">{product.type}</h6>
             <p className="text-lg font-bold mt-2">Price: ₹{product.price}</p>
             
-            {/* Action Buttons */}
+          
             <div className="mt-4 flex justify-between">
               <button
                 className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition duration-300"
@@ -137,6 +138,7 @@ function ProductFilter() {
       {editingProduct && (
         <Edditprodect
           product={editingProduct}
+         
           onUpdateProduct={handleUpdateProduct}
           onClose={() => setEditingProduct(null)}
           style={{ position: 'absolute', top: editPosition.top, left: editPosition.left }}

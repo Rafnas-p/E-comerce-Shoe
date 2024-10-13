@@ -8,7 +8,7 @@ function SearchBar() {
   const [filteredData, setFilteredData] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const { addToCart, cartItems, products } = useContext(ShopContext);
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate(); 
 
   const handleFilter = (event) => {
     const searchWord = event.target.value;
@@ -36,7 +36,7 @@ function SearchBar() {
     
     navigate(`SearchProduct/${_id}`);
     
-    // Navigate to the product page using the correct ID
+    
   };
 
   return (
@@ -55,16 +55,16 @@ function SearchBar() {
         </div>
       </div>
 
-      {/* Display Search Results */}
+    
       {filteredData.length !== 0 && (
         <div className="absolute w-full bg-white shadow-lg max-h-60 overflow-y-auto mt-1 rounded-lg z-10">
           {filteredData.slice(0, 4).map((value) => {
-            const cartItemAmount = cartItems[value._id] || 0; // Access cart items using _id
+            const cartItemAmount = cartItems[value._id] || 0; 
             return (
               <div
-                key={value._id} // Use _id as the key
+                key={value._id} 
                 className="p-2 hover:bg-gray-100 flex justify-between items-center cursor-pointer"
-                onClick={() => handleProductClick(value._id)} // Navigate to the product page
+                onClick={() => handleProductClick(value._id)} 
               >
                 <div>
                   <p className="text-sm font-medium">{value.title}</p>
@@ -73,8 +73,8 @@ function SearchBar() {
                 <button
                   className="bg-blue-500 text-white text-xs py-1 px-2 rounded"
                   onClick={(e) => {
-                    e.stopPropagation(); // Prevent navigating when clicking "Add to Cart"
-                    addToCart(value._id); // Ensure adding to cart with _id
+                    e.stopPropagation(); 
+                    addToCart(value._id); 
                   }}
                 >
                   Add to Cart {cartItemAmount > 0 && `(${cartItemAmount})`}

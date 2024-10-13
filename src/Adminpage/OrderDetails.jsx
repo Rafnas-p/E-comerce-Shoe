@@ -52,7 +52,7 @@ function OrderDetails() {
                   <td className="border border-gray-200 px-4 py-2">{order._id}</td>
                   <td className="border border-gray-200 px-4 py-2">{order.userDetails.name}</td>
                   <td className="border border-gray-200 px-4 py-2">{order.totalPrice}</td>
-                  <td className="border border-gray-200 px-4 py-2">{order.status}</td>
+                  <td className="border border-gray-200 px-4 py-2">{order.paymentStatus}</td>
                   <td className="border border-gray-200 px-4 py-2">{new Date(order.purchaseDate).toLocaleDateString()}</td>
                 </tr>
               ))}

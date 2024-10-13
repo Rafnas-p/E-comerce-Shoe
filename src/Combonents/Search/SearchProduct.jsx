@@ -7,23 +7,23 @@ import { useNavigate } from 'react-router-dom';
 const SearchProduct = () => {
   const { _id } = useParams(); 
   console.log('undfin',_id);
-  // Use _id to get the product ID from the URL
+  
   const { addToCart, cartItems, products } = useContext(ShopContext);
   const isLogged = Cookie.get('token');
   const navigate = useNavigate();
 
-  // Find the product based on the ID from useParams
+  
   const product = products.find((item) => item._id === _id);
-  const cartItemAmount = cartItems[product?._id] || 0; // Use _id to get cart amount
+  const cartItemAmount = cartItems[product?._id] || 0; 
 
-  // If product is not found, display an error message
+  
   if (!product) {
     return <div>Product not found</div>;
   }
 
   return (
     <div className="mb-8 mx-auto max-w-sm p-4 shadow-lg rounded-lg hover:shadow-xl transition-shadow duration-300">
-      {/* Product Image */}
+      
       <div className="relative mb-4">
         <img 
           src={product.image} 
@@ -32,7 +32,7 @@ const SearchProduct = () => {
         />
       </div>
 
-      {/* Product Info */}
+      
       <div className="text-center">
         <h2 className="text-xl font-bold mb-2">{product.title}</h2>
         <p className="text-gray-500 mb-2">{product.name}</p>

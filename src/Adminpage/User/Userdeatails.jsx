@@ -59,6 +59,7 @@ const UserDetails = () => {
     return <div className="text-center text-xl text-gray-500">Loading...</div>;
   }
 
+
   return (
     <div className="min-h-screen bg-gray-100">
       <AdminNav />
