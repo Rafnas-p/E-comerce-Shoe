@@ -17,7 +17,7 @@ import Cookie from 'js-cookie'
         }
         
         
-        const response= await fetch('http://localhost:3002/admin/viewAllUsers',{
+        const response= await fetch('https://serversid-user.onrender.com/admin/viewAllUsers',{
           method:'GET',
     headers:{  "Content-Type": "application/json",
       Authorization: `Bearer ${token}`},

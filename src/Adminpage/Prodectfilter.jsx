@@ -14,7 +14,7 @@ function ProductFilter({refresh}) {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch('http://localhost:3002/users/products');
+        const response = await fetch('https://serversid-user.onrender.com/users/products');
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
@@ -39,7 +39,7 @@ function ProductFilter({refresh}) {
 
   const handleUpdateProduct = async (updatedProduct) => {
     try {
-      const response = await fetch(`http://localhost:3002/admin/updateproduct/${updatedProduct._id}`, {
+      const response = await fetch(`https://serversid-user.onrender.com/admin/updateproduct/${updatedProduct._id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -68,7 +68,7 @@ function ProductFilter({refresh}) {
   const onDeleteProduct = async (productId) => {
     const token = Cookie.get('token');
     try {
-      const response = await fetch(`http://localhost:3002/admin/deleatProduct/${productId}`, {
+      const response = await fetch(`https://serversid-user.onrender.com/admin/deleatProduct/${productId}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',

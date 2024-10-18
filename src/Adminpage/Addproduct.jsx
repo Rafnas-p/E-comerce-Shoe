@@ -26,7 +26,7 @@ const Addproduct = ({setRefresh}) => {
     console.log("Submitting product:", newProduct);
 
     try {
-      const response = await fetch("http://localhost:3002/admin/creatProduct", {
+      const response = await fetch("https://serversid-user.onrender.com/admin/creatProduct", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

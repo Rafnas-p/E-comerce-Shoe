@@ -23,7 +23,7 @@ const Checkout = () => {
     const token = Cookie.get("token");
 
     try {
-      const response = await fetch("http://localhost:3002/users/order", {
+      const response = await fetch("https://serversid-user.onrender.com/users/order", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -81,7 +81,7 @@ const Checkout = () => {
     const token = Cookie.get("token");
 
     try {
-      const response = await fetch("http://localhost:3002/users/order/verify", {
+      const response = await fetch("https://serversid-user.onrender.com/users/order/verify", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

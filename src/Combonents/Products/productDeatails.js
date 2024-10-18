@@ -16,7 +16,7 @@ function ProductDetails() {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await fetch(`http://localhost:3002/users/product/${id}`);
+        const response = await fetch(`https://serversid-user.onrender.com/users/product/${id}`);
         if (!response.ok) {
           throw new Error('Failed to fetch product.');
         }

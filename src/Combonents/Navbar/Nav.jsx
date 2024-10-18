@@ -24,7 +24,7 @@ function Nav() {
     const fetchCartItems = async () => {
       if (!isLoggedIn) return; 
       try {
-        const response = await fetch('http://localhost:3002/users/getCartItem', {
+        const response = await fetch('https://serversid-user.onrender.com/users/getCartItem', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

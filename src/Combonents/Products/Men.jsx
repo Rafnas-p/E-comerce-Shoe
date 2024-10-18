@@ -20,7 +20,7 @@ function Men() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch("http://localhost:3002/users/products");
+        const response = await fetch("https://serversid-user.onrender.com/users/products");
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }

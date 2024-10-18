@@ -16,7 +16,7 @@ const  OrderDtailsUser= () => {
             setLoading(true);
             setError(null);
             try {
-                const response = await fetch('http://localhost:3002/users/order/deatils', {
+                const response = await fetch('https://serversid-user.onrender.com/users/order/deatils', {
                     method: 'GET',
                     headers: {
                         "Content-Type": "application/json",

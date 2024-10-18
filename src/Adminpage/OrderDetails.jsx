@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Cookie from 'js-cookie';
 import AdminNav from './AdminNav';
 async function fetchOrderDetails(token) {
-  const response = await fetch('http://localhost:3002/admin/OrderDetails', {
+  const response = await fetch('https://serversid-user.onrender.com/admin/OrderDetails', {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',

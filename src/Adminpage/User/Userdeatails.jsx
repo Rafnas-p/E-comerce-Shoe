@@ -14,7 +14,7 @@ const UserDetails = () => {
     // Fetch user details
     const fetchUserDetails = async () => {
       try {
-        const response = await fetch(`http://localhost:3002/admin/getUser/${_id}`, {
+        const response = await fetch(`https://serversid-user.onrender.com/admin/getUser/${_id}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -33,7 +33,7 @@ const UserDetails = () => {
     // Fetch user orders
     const fetchUserOrders = async () => {
       try {
-        const response = await fetch(`http://localhost:3002/admin/orderDeatailsByUser/${_id}`, {
+        const response = await fetch(`https://serversid-user.onrender.com/admin/orderDeatailsByUser/${_id}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

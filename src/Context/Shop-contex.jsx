@@ -33,7 +33,7 @@ const ShopProvider = ({ children }) => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch("http://localhost:3002/users/products");
+        const response = await fetch("https://serversid-user.onrender.com/users/products");
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
@@ -53,7 +53,7 @@ const ShopProvider = ({ children }) => {
   const addToCart = async (id) => {
     try {
       const token = Cookie.get("token");
-      const response = await fetch("http://localhost:3002/users/cart/add", {
+      const response = await fetch("https://serversid-user.onrender.com/users/cart/add", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -83,7 +83,7 @@ const ShopProvider = ({ children }) => {
   const fetchCartItems = async (userId) => {
     try {
       const token = Cookie.get("token");
-      const response = await fetch("http://localhost:3002/users/getCartItem", {
+      const response = await fetch("https://serversid-user.onrender.com/users/getCartItem", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -103,7 +103,7 @@ const ShopProvider = ({ children }) => {
     try {
       const token = Cookie.get("token");
       const response = await fetch(
-        "http://localhost:3002/users/updateCartItemQuantity",
+        "https://serversid-user.onrender.com/users/updateCartItemQuantity",
         {
           method: "POST",
           headers: {
@@ -125,7 +125,7 @@ const ShopProvider = ({ children }) => {
     try {
       const token = Cookie.get("token");
       const response = await fetch(
-        "http://localhost:3002/users/updateCartItemQuantity",
+        "https://serversid-user.onrender.com/users/updateCartItemQuantity",
         {
           method: "POST",
           headers: {
@@ -179,7 +179,7 @@ const ShopProvider = ({ children }) => {
       }
 
       const response = await fetch(
-        `http://localhost:3002/users/removeCartitem/${id}`,
+        `https://serversid-user.onrender.com/users/removeCartitem/${id}`,
         {
           method: "DELETE",
           headers: {
@@ -230,7 +230,7 @@ const ShopProvider = ({ children }) => {
   const addwishlist = async (id) => {
     try {
       const token = Cookie.get("token");
-      const response = await fetch("http://localhost:3002/users/wishlist/add", {
+      const response = await fetch("https://serversid-user.onrender.com/users/wishlist/add", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -250,7 +250,7 @@ const ShopProvider = ({ children }) => {
   const getwihlist = async () => {
     try {
       const token = Cookie.get("token");
-      const response = await fetch("http://localhost:3002/users/gettwishlist", {
+      const response = await fetch("https://serversid-user.onrender.com/users/gettwishlist", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -268,7 +268,7 @@ const ShopProvider = ({ children }) => {
     try {
       const token = Cookie.get("token");
       const response = await fetch(
-        `http://localhost:3002/users/removewishlist/${id}`,
+        `https://serversid-user.onrender.com/users/removewishlist/${id}`,
         {
           method: "DELETE",
           headers: {

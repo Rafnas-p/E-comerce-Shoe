@@ -18,7 +18,7 @@ function AdminHom() {
 
     const fetchUsers = async () => {
       try {
-        const response = await fetch('http://localhost:3002/admin/viewAllUsers', {
+        const response = await fetch('https://serversid-user.onrender.com/admin/viewAllUsers', {
           method: 'GET',
           headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         });
@@ -35,7 +35,7 @@ function AdminHom() {
 
     const fetchProducts = async () => {
       try {
-        const response = await fetch('http://localhost:3002/users/products');
+        const response = await fetch('https://serversid-user.onrender.com/users/products');
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
@@ -48,7 +48,7 @@ function AdminHom() {
 
     const fetchRevenueData = async () => {
       try {
-        const response = await fetch('http://localhost:3002/admin/totalRevenue', {
+        const response = await fetch('https://serversid-user.onrender.com/admin/totalRevenue', {
           method: 'GET',
           headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         });

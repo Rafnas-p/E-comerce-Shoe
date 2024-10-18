@@ -24,7 +24,7 @@ function Login(props) {
 
     
     const isAdmin = email === 'admin@gmail.com';
-    const url = isAdmin ? 'http://localhost:3002/admin/adminlogin' : 'http://localhost:3002/users/login';
+    const url = isAdmin ? 'https://serversid-user.onrender.com/admin/adminlogin' : 'https://serversid-user.onrender.com/users/login';
 
     try {
       const response = await fetch(url, {
