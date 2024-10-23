@@ -21,26 +21,27 @@ const Checkout = () => {
 
   const handleCreateOrder = async () => {
     const token = Cookie.get("token");
-
+  
     try {
       const response = await fetch("https://serversid-user.onrender.com/users/order", {
         method: "POST",
+        credentials: "include",  // Allow sending cookies
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(userDetails),
       });
-
+  
       const data = await response.json();
-
+  
       if (!response.ok) {
         throw new Error(data.message || "Error creating order");
       }
-
+  
       const { order } = data;
       const orderId = order.orderId;
-
+  
       const options = {
         key: "rzp_test_J7pYF1oyqUCqDx",
         amount: order.totalPrice * 100,
@@ -65,14 +66,14 @@ const Checkout = () => {
           color: "#F37254",
         },
       };
-
+  
       const rzp = new window.Razorpay(options);
       rzp.open();
     } catch (error) {
       console.error("Error creating order:", error);
     }
   };
-
+  
   const verifyPayment = async (
     razorpayOrderId,
     razorpayPaymentId,

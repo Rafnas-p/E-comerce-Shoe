@@ -1,4 +1,3 @@
-
 import React from 'react';
 import Home from './Pages/Home';
 import { Route, Routes, useLocation } from 'react-router-dom';
@@ -23,9 +22,13 @@ import OrderDetails from './Adminpage/OrderDetails';
 import OrderDtailsUser from './Combonents/Cart/OrderDtailsUser';
 import SearchProduct from './Combonents/Search/SearchProduct';
 import ProtectedRoute from './Combonents/protectRouter/ProtectedRoute';
+
 export default function App() {
   const location = useLocation();
   const isAdminpath = location.pathname.startsWith('/admin');
+  
+  // Exclude Footer on /cart and /Wishlist
+  const isFooterVisible = !isAdminpath && location.pathname !== '/cart' && location.pathname !== '/Wishlist';
 
   return (
     <div>
@@ -51,7 +54,7 @@ export default function App() {
           <Route path="/SearchProduct/:_id" element={<SearchProduct />} />
         </Routes>
 
-        {!isAdminpath && <Footer />}
+        {isFooterVisible && <Footer />}
       </ShopContextProvider>
     </div>
   );

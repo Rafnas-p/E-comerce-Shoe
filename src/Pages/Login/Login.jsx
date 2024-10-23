@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useNavigate} from 'react-router-dom';
-import Cookie from 'js-cookie'; 
+import { useNavigate } from 'react-router-dom';
+import Cookie from 'js-cookie';
 import { ShopContext } from '../../Context/Shop-contex';
 
 function Login(props) {
@@ -15,16 +15,17 @@ function Login(props) {
 
   useEffect(() => {
     if (userId) {
-      fetchCartItems(userId); 
+      fetchCartItems(userId);
     }
   }, [userId, fetchCartItems]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    
     const isAdmin = email === 'admin@gmail.com';
-    const url = isAdmin ? 'https://serversid-user.onrender.com/admin/adminlogin' : 'https://serversid-user.onrender.com/users/login';
+    const url = isAdmin
+      ? 'https://serversid-user.onrender.com/admin/adminlogin'
+      : 'https://serversid-user.onrender.com/users/login';
 
     try {
       const response = await fetch(url, {
@@ -35,27 +36,20 @@ function Login(props) {
 
       const data = await response.json();
 
-      if(isAdmin){
-        Cookie.set('role','admin')
-      }else{
-        Cookie.set('role','user')
-
-      }
-      console.log(data);
+      if (isAdmin) Cookie.set('role', 'admin');
+      else Cookie.set('role', 'user');
 
       if (response.ok) {
-      
         Cookie.set('token', data.token);
         Cookie.set('isLogged', true);
         Cookie.set('user', data.user.id);
 
-      
         setLoginSuccess(true);
         setTimeout(() => {
           navigate(isAdmin ? '/admin/adminhome' : '/');
         }, 2000);
       } else {
-        setError(data.message); 
+        setError(data.message);
       }
     } catch (error) {
       setError('An error occurred while logging in. Please try again.');
@@ -64,62 +58,74 @@ function Login(props) {
 
   return (
     <>
-      <div className='flex items-center justify-center min-h-screen bg-gray-100 p-4'>
-        <div className='w-full max-w-md bg-white shadow-lg rounded-lg p-8'>
-          
-          <div className="flex items-center mb-6">
-            <h6 className="text-3xl font-bold no-underline text-black hover:text-blue-600" >
+      <div className="flex items-center justify-center min-h-screen bg-gray-50 px-4">
+        <div className="w-full max-w-md bg-white shadow-md rounded-xl p-6 sm:p-8">
+          <div className="flex justify-center mb-6">
+            <h6 className="text-3xl font-bold text-black hover:text-blue-600">
               WAN<span className="text-red-600">O</span>SHOE
             </h6>
           </div>
-          <form className='space-y-4' onSubmit={handleSubmit}>
-            <h3 className='text-2xl font-bold mb-4 text-center'>Welcome to Wano</h3>
-            <div className='mb-4'>
-              <label htmlFor='email' className='block text-gray-700 font-semibold mb-2'>Enter Your Email:</label>
+
+          <form className="space-y-6" onSubmit={handleSubmit}>
+            <h3 className="text-2xl font-bold text-center text-gray-800 mb-4">
+              Welcome to Wano
+            </h3>
+
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                Email:
+              </label>
               <input
-                type='email'
-                placeholder='Enter Your Email'
-                onChange={(e) => setEmail(e.target.value)}
+                type="email"
+                id="email"
+                name="email"
                 value={email}
-                id='email'
-                name='email'
+                onChange={(e) => setEmail(e.target.value)}
                 required
-                className='w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500'
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Enter your email"
               />
             </div>
-            <div className='mb-4'>
-              <label htmlFor='password' className='block text-gray-700 font-semibold mb-2'>Password:</label>
+
+            <div>
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+                Password:
+              </label>
               <input
-                type='password'
-                onChange={(e) => setPassword(e.target.value)}
+                type="password"
+                id="password"
+                name="password"
                 value={password}
-                placeholder='******'
-                id='password'
-                name='password'
+                onChange={(e) => setPassword(e.target.value)}
                 required
-                className='w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500'
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Enter your password"
               />
             </div>
-            {error && <p className='text-red-500'>{error}</p>}
+
+            {error && <p className="text-red-500 text-sm">{error}</p>}
+
             <button
-              type='submit'
-              className='w-full py-2 px-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500'
+              type="submit"
+              className="w-full py-2 px-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:ring-2 focus:ring-blue-400"
             >
               Login
             </button>
           </form>
+
           <button
-            className='w-full mt-4 text-blue-500 hover:underline focus:outline-none'
+            className="w-full mt-4 text-blue-500 text-sm hover:underline"
             onClick={() => props.onFormSwitch('Registration')}
           >
             Don't have an account? Register here
           </button>
         </div>
       </div>
+
       {loginSuccess && (
-        <div className='fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50'>
-          <div className='bg-white p-4 rounded-lg shadow-lg'>
-            <p className='text-center text-gray-700'>Login Successful! Redirecting...</p>
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg">
+            <p className="text-gray-700 text-center">Login Successful! Redirecting...</p>
           </div>
         </div>
       )}
