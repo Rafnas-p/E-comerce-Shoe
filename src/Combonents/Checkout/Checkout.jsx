@@ -23,16 +23,25 @@ const Checkout = () => {
     const token = Cookie.get("token");
   
     try {
+      // const response = await fetch("https://serversid-user.onrender.com/users/order", {
+      //   method: "POST",
+      //   credentials: "include",  // Allow sending cookies
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //     Authorization: `Bearer ${token}`,
+      //   },
+      //   body: JSON.stringify(userDetails),
+      // });
       const response = await fetch("https://serversid-user.onrender.com/users/order", {
         method: "POST",
-        credentials: "include",  // Allow sending cookies
+        mode: "no-cors",  // For testing only, will limit the response handling
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(userDetails),
       });
-  
+      
       const data = await response.json();
   
       if (!response.ok) {
