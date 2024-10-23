@@ -1,5 +1,4 @@
-
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ProductData } from '../Products/Prodects';
 import SearchBar from '../Search/SearchBar';
@@ -11,18 +10,19 @@ import Cookie from 'js-cookie';
 
 function Nav() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const { clearCart, dependency } = useContext(ShopContext);
   const [count, setCount] = useState(0);
   const navigate = useNavigate();
+  const dropdownTimeout = useRef(null); 
 
   const token = Cookie.get('token');
-  const isLoggedIn = !!token; 
-  const userId = Cookie.get('user'); 
+  const isLoggedIn = !!token;
+  const userId = Cookie.get('user');
 
   useEffect(() => {
     const fetchCartItems = async () => {
-      if (!isLoggedIn) return; 
+      if (!isLoggedIn) return;
       try {
         const response = await fetch('https://serversid-user.onrender.com/users/getCartItem', {
           method: 'POST',
@@ -49,13 +49,21 @@ function Nav() {
     navigate('/');
   };
 
-  const toggleDropdown = () => {
-    setDropdownOpen(!dropdownOpen);
+  
+  const handleMouseEnter = () => {
+    if (dropdownTimeout.current) clearTimeout(dropdownTimeout.current);
+    setIsDropdownOpen(true);
+  };
+
+  const handleMouseLeave = () => {
+    dropdownTimeout.current = setTimeout(() => {
+      setIsDropdownOpen(false);
+    }, 400); 
   };
 
   return (
     <div>
-      <nav className="bg-gray-400 text-center py-0"> 
+      <nav className="bg-gray-400 text-center py-0">
         <Link className="text-sm font-small text-white no-underline" to="">
           Free Express Shipping on all orders with all duties included
         </Link>
@@ -82,12 +90,17 @@ function Nav() {
 
             <Link to="cart" className="text-red-700 hover:text-red-900 relative">
               <CiShoppingCart size={24} />
-              <span className="absolute top-0 right-0 text-xs bg-red-200 text-red-700 rounded-full w-4 h-4 flex justify-center items-center border border-white-700">{isLoggedIn ? count : 0}</span>
+              <span className="absolute top-0 right-0 text-xs bg-red-200 text-red-700 rounded-full w-4 h-4 flex justify-center items-center border border-white-700">{count || 0}</span>
             </Link>
 
-            <div className="relative">
-              <BsPerson onClick={toggleDropdown} className="text-gray-700 hover:text-gray-900 cursor-pointer" size={24} />
-              {dropdownOpen && (
+            
+            <div 
+              className="relative" 
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+            >
+              <BsPerson className="text-gray-700 hover:text-gray-900 cursor-pointer" size={24} />
+              {isDropdownOpen && (
                 <div className="absolute right-0 mt-2 w-48 bg-blue-100 shadow-lg rounded-md z-10">
                   {isLoggedIn ? (
                     <>
@@ -102,12 +115,9 @@ function Nav() {
                       </button>
                     </>
                   ) : (
-                    <>
-                      <Link to="login" className="flex items-center px-4 py-2 text-gray-800 hover:bg-gray-200 no-underline">
-                        Login
-                      </Link>
-                     
-                    </>
+                    <Link to="login" className="flex items-center px-4 py-2 text-gray-800 hover:bg-gray-200 no-underline">
+                      Login
+                    </Link>
                   )}
                 </div>
               )}

@@ -1,16 +1,17 @@
-
- .nav0 {
-    display: flex;
-    justify-content: center;
-    background-color: #e5e8e8;
-
-  }
-.nav0-1{
-text-decoration: none;
-color: rgb(186, 187, 187);
-font-size: 10px;
-
+/* General Styling */
+.nav0 {
+  display: flex;
+  justify-content: center;
+  background-color: #e5e8e8;
 }
+
+.nav0-1 {
+  text-decoration: none;
+  color: rgb(186, 187, 187);
+  font-size: 10px;
+}
+
+/* Navbar Styling */
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -19,12 +20,15 @@ font-size: 10px;
   background-color: rgb(191, 7, 7);
   height: 80px;
   width: 100%;
+  position: fixed;
   top: 0;
   z-index: 1000;
 }
 
-.navbar-left, .navbar-right {
-  list-style-type: none;
+/* Navbar Left and Right */
+.navbar-left,
+.navbar-right {
+  list-style: none;
   display: flex;
   padding: 0;
 }
@@ -37,160 +41,133 @@ font-size: 10px;
   margin-left: 20px;
 }
 
-
+/* Logo Image */
 .logimg {
-
-  max-width: 50px; 
+  max-width: 50px;
   padding: 9px;
   margin-right: 40px;
- 
 }
-.nav-cart-count{
-  width: 12px;
-  height: 12px;
+
+/* Cart Count */
+.nav-cart-count {
+  width: 15px;
+  height: 15px;
   display: flex;
   justify-content: center;
   align-items: center;
   margin-top: 11px;
-  margin-left: -62px;
-  border-radius: 14px;
+  margin-left: -50px;
+  border-radius: 50%;
   background-color: rgba(224, 86, 31, 0.842);
   color: aliceblue;
-  font-size: 50%;
+  font-size: 10px;
 }
 
-li a{
+li a {
   text-decoration: none;
   color: rgb(228, 225, 225);
   margin-left: 10px;
-  font-weight: bolde;
-  transition: linear;
-
-}
-
-.link-home-head{
   font-weight: bold;
+  transition: all 0.3s ease-in-out;
 }
+
+/* Home Image Section */
 .homeImg {
   width: 100%;
-  height: 100vh; 
+  height: 100vh;
   background-image: url("https://websitedemos.net/recycled-shoe-store-04/wp-content/uploads/sites/983/2021/11/recycled-shoe-store-hero-image-bg.jpg");
   background-size: cover;
-  background-repeat: no-repeat;
   background-position: center;
-  position: relative; /* Ensures any positioned children are relative to this element */
-  z-index: -1; /* Keeps it behind other content */
-  display: flex; /* Allows for positioning of children with flexbox */
-  align-items: center; /* Vertically centers children */
-  justify-content: center; /* Horizontally centers children */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
 }
 
 .bgimg-text {
   color: aliceblue;
-  margin: 0; /* Remove margins to center text */
-  text-align: center; /* Centers text horizontally */
-  position: absolute; /* Position the text absolutely */
-  top: 50%; /* Vertically centers the text */
-  left: 50%; /* Horizontally centers the text */
-  transform: translate(-50%, -50%); /* Adjusts the centering */
-}
-.navbar-toggle {
-  display: none;
-  cursor: pointer;
-  background: none;
-  border: none;
-  font-size: 24px;
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.5rem;
 }
 
-@media (max-width:  576px) {
-  .navbar-left, .navbar-right {
-    display: none;
-    flex-direction: column;
-    width: 100%;
-  }
-  .navbar-left.active, .navbar-right.active {
-    display: flex;
-  }
-  .navbar {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  .navbar-toggle {
-    display: block;
-    cursor: pointer;
-  }
-}
-
-/* Remove border and background from the button */
+/* Logout Button */
 .logout-btn {
   background: none;
   border: none;
   cursor: pointer;
   padding: 0;
   margin: 0;
-  background-color: #faf1f1;
 }
 
-/* Style the logout image */
 .logout-img {
   max-width: 50px;
   padding: 10px;
-  display: block;
-}
-.home-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 100vh; /* Full viewport height */
-  margin-top: 50px;
-  margin-bottom: 50px;
 }
 
+/* Home Container */
 .home-container {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-  height: 70vh; /* Adjusted for better balance */
+  height: 70vh;
   margin: 50px 0;
-  width: 100%; /* Make the container take full width */
-  padding: 0 20px; /* Add some padding for better alignment */
+  padding: 0 20px;
+  width: 100%;
 }
 
+/* Home Section Image */
 .homeImg2 {
-  flex: 1; /* Allow the image to take up available space */
+  flex: 1;
   height: 100%;
-  background-image: url("https://websitedemos.net/recycled-shoe-store-04/wp-content/uploads/sites/983/2021/11/recycled-shoe-store-home-about-image.jpg");
+  background-image: url("https://imgs.search.brave.com/MTt2uS-AbmRGEV_ZBmYPkJTxyf2m4-xy3QtSLBxvgyI/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA0LzYzLzczLzg0/LzM2MF9GXzQ2Mzcz/ODQ3OV9OTVNEOUxQ/S3dLSDlCYnhCQTdZ/SWZLYnVpZjZ3WlIz/SC5qcGc");
   background-size: cover;
-  background-repeat: no-repeat;
   background-position: center;
-
+  object-fit: cover;
+  border-radius: 10px;
+  margin-right: 20px;
+  min-width: 300px;
 }
 
-.about-us-section {
-  flex: 1; /* Allow the text section to take up available space */
-  padding: 20px;
-  background-color: rgba(255, 255, 255, 0.9); /* Slight white background for readability */
+/* Full Size Image Handling */
+.homeImg2 img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   border-radius: 10px;
-  
-  margin-left: 20px; /* Add margin to separate image and text */
+}
+
+/* About Us Section */
+.about-us-section {
+  max-width: 500px;
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 10px;
+  text-align: center;
+  flex: 1;
+  min-width: 300px;
 }
 
 .about-us-section h2 {
-  font-size: 28px;
+  font-size: 1.8rem;
   color: #333;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .about-us-section p {
-  font-size: 16px;
+  font-size: 1rem;
   color: #666;
   line-height: 1.6;
-  margin-bottom: 15px; /* Slightly reduced margin for compactness */
+  margin-bottom: 15px;
 }
 
 .about-us-section .read-more-link {
   display: inline-block;
-  padding: 10px 20px;
+  padding: 8px 16px;
   background-color: #e33636;
   color: #fff;
   text-decoration: none;
@@ -200,4 +177,85 @@ li a{
 
 .about-us-section .read-more-link:hover {
   background-color: #c12c2c;
+}
+
+/* Navbar Toggle for Mobile */
+.navbar-toggle {
+  display: none;
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-size: 24px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    height: auto;
+    padding: 10px;
+  }
+
+  .navbar-left,
+  .navbar-right {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .navbar-left.active,
+  .navbar-right.active {
+    display: flex;
+  }
+
+  .navbar-toggle {
+    display: block;
+  }
+
+  .homeImg {
+    height: 60vh;
+  }
+
+  .about-us-section h2 {
+    font-size: 1.5rem;
+  }
+
+  .about-us-section p {
+    font-size: 0.9rem;
+  }
+
+  .nav-cart-count {
+    width: 18px;
+    height: 18px;
+    font-size: 11px;
+  }
+
+  .home-container {
+    flex-direction: column;
+    align-items: center;
+    height: auto;
+  }
+
+  .homeImg2 {
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 576px) {
+  .homeImg {
+    height: 40vh;
+  }
+
+  .homeImg2 {
+    height: 50vh;
+  }
+
+  .about-us-section h2 {
+    font-size: 1.3rem;
+  }
+
+  .about-us-section p {
+    font-size: 0.8rem;
+  }
 }

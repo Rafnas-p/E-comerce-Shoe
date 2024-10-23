@@ -144,7 +144,7 @@ function Collection() {
           )?.inWishlist;
 
           return (
-            <Col key={iteme._id} xs={12} sm={6} md={4} lg={3} className="mb-4">
+            <Col key={iteme._id} xs={6} sm={6} md={4} lg={3} className="mb-4">
               <Card className="shadow-lg transition-transform duration-300 hover:scale-105 rounded-lg overflow-hidden">
                 <div className="relative">
                   <Card.Img
