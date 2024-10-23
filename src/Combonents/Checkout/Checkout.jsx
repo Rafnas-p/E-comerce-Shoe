@@ -24,7 +24,7 @@ const Checkout = () => {
 
     try {
       const response = await fetch("https://serversid-user.onrender.com/users/order", {
-        method: "GET",
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
