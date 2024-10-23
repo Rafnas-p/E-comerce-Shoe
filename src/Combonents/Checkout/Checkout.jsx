@@ -11,77 +11,65 @@ const Checkout = () => {
     address: "",
   });
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setUserDetails((prevDetails) => ({
-      ...prevDetails,
-      [name]: value,
-    }));
-  };
-
   const handleCreateOrder = async () => {
     const token = Cookie.get("token");
   
     try {
-      // const response = await fetch("https://serversid-user.onrender.com/users/order", {
-      //   method: "POST",
-      //   credentials: "include",  // Allow sending cookies
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //     Authorization: `Bearer ${token}`,
-      //   },
-      //   body: JSON.stringify(userDetails),
-      // });
       const response = await fetch("https://serversid-user.onrender.com/users/order", {
         method: "POST",
-        mode: "no-cors",  // For testing only, will limit the response handling
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
+        credentials: "include", // Allows cookies if needed
         body: JSON.stringify(userDetails),
       });
-      
-      const data = await response.json();
   
       if (!response.ok) {
-        throw new Error(data.message || "Error creating order");
+        const errorData = await response.json(); // Handle error response
+        throw new Error(errorData.message || "Error creating order");
       }
   
+      const data = await response.json();
+      console.log("Order created:", data);
+  
+      // Proceed with Razorpay payment
       const { order } = data;
-      const orderId = order.orderId;
-  
-      const options = {
-        key: "rzp_test_J7pYF1oyqUCqDx",
-        amount: order.totalPrice * 100,
-        currency: "INR",
-        name: "WanoShoe",
-        description: "Thank you for buying",
-        order_id: orderId,
-        handler: function (response) {
-          const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = response;
-          verifyPayment(
-            razorpay_order_id,
-            razorpay_payment_id,
-            razorpay_signature
-          );
-        },
-        prefill: {
-          name: userDetails.name,
-          email: "customer@example.com",
-          contact: userDetails.phone,
-        },
-        theme: {
-          color: "#F37254",
-        },
-      };
-  
-      const rzp = new window.Razorpay(options);
-      rzp.open();
+      openRazorpay(order);
     } catch (error) {
       console.error("Error creating order:", error);
     }
   };
+  
+  const openRazorpay = (order) => {
+    const options = {
+      key: "rzp_test_J7pYF1oyqUCqDx",
+      amount: order.totalPrice * 100,
+      currency: "INR",
+      name: "WanoShoe",
+      description: "Thank you for buying",
+      order_id: order.orderId,
+      handler: function (response) {
+        verifyPayment(
+          response.razorpay_order_id,
+          response.razorpay_payment_id,
+          response.razorpay_signature
+        );
+      },
+      prefill: {
+        name: userDetails.name,
+        email: "customer@example.com",
+        contact: userDetails.phone,
+      },
+      theme: {
+        color: "#F37254",
+      },
+    };
+  
+    const rzp = new window.Razorpay(options);
+    rzp.open();
+  };
+  
   
   const verifyPayment = async (
     razorpayOrderId,
