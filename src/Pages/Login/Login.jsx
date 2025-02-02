@@ -58,7 +58,7 @@ function Login(props) {
 
   return (
     <>
-      <div className="flex items-center justify-center min-h-screen bg-gray-50 px-4">
+      <div>
         <div className="w-full max-w-md bg-white shadow-md rounded-xl p-6 sm:p-8">
           <div className="flex justify-center mb-6">
             <h6 className="text-3xl font-bold text-black hover:text-blue-600">

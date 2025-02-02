@@ -31,7 +31,7 @@ function Registration(props) {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4 sm:p-6">
+    <div>
       <div className="w-full max-w-sm sm:max-w-md bg-white shadow-lg rounded-lg p-6 sm:p-8">
         <div className="flex items-center justify-center mb-6">
           <h6 className="text-2xl sm:text-3xl font-bold text-black hover:text-blue-600">

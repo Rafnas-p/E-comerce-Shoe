@@ -10,6 +10,7 @@ const Checkout = () => {
     phone: "",
     address: "",
   });
+console.log('userDetails',userDetails);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
