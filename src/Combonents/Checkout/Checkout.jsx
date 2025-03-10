@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import Cookie from "js-cookie";
 import { useNavigate } from "react-router-dom";
 
@@ -10,7 +10,17 @@ const Checkout = () => {
     phone: "",
     address: "",
   });
-console.log('userDetails',userDetails);
+
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+    script.async = true;
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -22,63 +32,66 @@ console.log('userDetails',userDetails);
 
   const handleCreateOrder = async () => {
     const token = Cookie.get("token");
-  
+
     try {
       const response = await fetch("https://serversid-user.onrender.com/users/order", {
         method: "POST",
-        credentials: "include",  // Allow sending cookies
+        credentials: "include", // Allow sending cookies
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(userDetails),
       });
-  
+
       const data = await response.json();
-  
-      if (!response.ok) {
+      console.log('data',data);
+      
+      if (!response.ok || !data?.order?.orderId) {
         throw new Error(data.message || "Error creating order");
       }
-  
-      const { order } = data;
-      const orderId = order.orderId;
-  
+
+      const { orderId, totalPrice } = data.order;
+
       const options = {
-        key: "rzp_test_J7pYF1oyqUCqDx",
-        amount: order.totalPrice * 100,
+        key: data.razorpayKeyId,
+        amount: totalPrice * 100, 
         currency: "INR",
         name: "WanoShoe",
         description: "Thank you for buying",
         order_id: orderId,
-        handler: function (response) {
-          const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = response;
-          verifyPayment(
-            razorpay_order_id,
-            razorpay_payment_id,
-            razorpay_signature
-          );
+        handler: async function (response) {
+          try {
+            await verifyPayment(
+              response.razorpay_order_id,
+              response.razorpay_payment_id,
+              response.razorpay_signature,
+              totalPrice
+            );
+          } catch (error) {
+            console.error("Payment verification failed:", error);
+          }
         },
         prefill: {
           name: userDetails.name,
           email: "customer@example.com",
           contact: userDetails.phone,
         },
-        theme: {
-          color: "#F37254",
-        },
+        theme: { color: "#F37254" },
       };
-  
+
       const rzp = new window.Razorpay(options);
       rzp.open();
     } catch (error) {
       console.error("Error creating order:", error);
     }
   };
-  
+
   const verifyPayment = async (
     razorpayOrderId,
     razorpayPaymentId,
-    razorpaySignature
+    razorpaySignature,
+    amount
   ) => {
     const token = Cookie.get("token");
 
@@ -93,17 +106,16 @@ console.log('userDetails',userDetails);
           razorpayOrderId,
           razorpayPaymentId,
           razorpaySignature,
+          amount,
         }),
       });
 
       const data = await response.json();
-
       if (!response.ok) {
         throw new Error(data.message || "Error verifying payment");
       }
 
       console.log("Payment verified:", data);
-      
       navigate("/OrderDtailsUser");
     } catch (error) {
       console.error("Error verifying payment:", error);
@@ -111,51 +123,58 @@ console.log('userDetails',userDetails);
   };
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-lg border border-gray-300">
-      <h2 className="text-2xl font-bold mb-4 text-center text-gray-800">Checkout</h2>
-      <input
-        type="text"
-        name="name"
-        placeholder="Name"
-        value={userDetails.name}
-        onChange={handleInputChange}
-        required
-        className="w-full p-2 mb-4 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500"
-      />
-      <input
-        type="text"
-        name="place"
-        placeholder="Place"
-        value={userDetails.place}
-        onChange={handleInputChange}
-        required
-        className="w-full p-2 mb-4 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500"
-      />
-      <input
-        type="text"
-        name="phone"
-        placeholder="Phone"
-        value={userDetails.phone}
-        onChange={handleInputChange}
-        required
-        className="w-full p-2 mb-4 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500"
-      />
-      <input
-        type="text"
-        name="address"
-        placeholder="Address"
-        value={userDetails.address}
-        onChange={handleInputChange}
-        required
-        className="w-full p-2 mb-4 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500"
-      />
+    <div className="flex justify-center items-center min-h-screen bg-gray-100 mt-20">
+    <div className="w-full max-w-lg p-8 bg-white rounded-lg shadow-lg border border-gray-300">
+      <h2 className="text-3xl font-bold mb-6 text-center text-gray-800">Checkout</h2>
+  
+      <div className="space-y-4">
+        <input
+          type="text"
+          name="name"
+          placeholder="Full Name"
+          value={userDetails.name}
+          onChange={handleInputChange}
+          required
+          className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        <input
+          type="text"
+          name="place"
+          placeholder="City / Place"
+          value={userDetails.place}
+          onChange={handleInputChange}
+          required
+          className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        <input
+          type="text"
+          name="phone"
+          placeholder="Phone Number"
+          value={userDetails.phone}
+          onChange={handleInputChange}
+          required
+          className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        <textarea
+          name="address"
+          placeholder="Complete Address"
+          value={userDetails.address}
+          onChange={handleInputChange}
+          required
+          className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          rows="3"
+        />
+      </div>
+  
       <button
         onClick={handleCreateOrder}
-        className="w-full p-2 bg-blue-500 text-white font-bold rounded hover:bg-blue-600 transition duration-200"
+        className="w-full mt-6 p-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition duration-300"
       >
         Pay Now
       </button>
     </div>
+  </div>
+  
   );
 };
 

@@ -81,6 +81,8 @@ const ShopProvider = ({ children }) => {
   };
 
   const fetchCartItems = async (userId) => {
+    console.log('84',userId);
+    
     try {
       const token = Cookie.get("token");
       const response = await fetch("https://serversid-user.onrender.com/users/getCartItem", {
